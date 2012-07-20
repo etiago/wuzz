@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Test</title>
+	<script src="http://prometheus.espinha.pt/socket.io/socket.io.js"></script>
+	<script src="js/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		var socket;
+		window.onload = function() {
+			socket = io.connect('http://prometheus.espinha.pt:80');
+		  	socket.on("question",function (questionData) {
+				var questionText = questionData["title"];
+				$("#questionTitle").html(questionText);
+			
+				var answers = '<div id="answersBlock">';
+				
+				$.each(questionData["answers"], function(index, value) { 
+					  answers += '<div id="answer"><input id="" type="button" value="'+value+'"/></div>';
+				});
+				
+				$("#answersBlock").replaceWith(answers);
+			});
+			
+			socket.on("timesUp", function (data) {
+				
+			});
+			
+			$("#submit").click(function () {
+				var d = eval('(' + $("#data").val() + ')');
+				socket.emit($("#command").val(),d);
+			});
+		}
+	  //socket.on('news1', function (data) {
+	  //  console.log(data);
+	  //  socket.emit('my other event', { my: 'data' });
+	  //});
+	</script>
+</head>
+<body>
+cmd: <input type="text" id="command" /> data: <input type="text" id="data" /><input type="button" id="submit" value="send"/>
+output: <div id="output"></div>
+</body>

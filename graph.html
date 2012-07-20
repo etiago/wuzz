@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+        <link rel="stylesheet" href="my.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
+        <script src="http://prometheus.espinha.pt/socket.io/socket.io.js"></script>
+        <script src="my.js">
+        </script>
+        <script>
+	        window.onload = function() {
+	        	var socket = io.connect('http://prometheus.espinha.pt:80');
+	        	window.iosocket = socket;
+	        	
+			  	socket.on("question",function (questionData) {
+					var questionText = questionData["question"];
+					$("#questionTitle").html(questionText);
+				
+					$.each(questionData["answers"], function(index, value) {
+						  index++;
+						  $("#answer"+index+" .ui-btn-text").html(value);
+						  $("#answer"+index).css("display","block");
+					});
+					
+				});
+				
+				socket.on("tick", function (data) {
+					var seconds = data["secondsLeft"];
+					$("#timeLeft").html("Time left: "+seconds+" seconds.");
+				});
+				
+				socket.on("graph", function (data) {
+					$.mobile.changePage("graph.html");
+				});
+				
+				// Ask the server for a status update
+				socket.emit("status", {});
+				
+	        	$("#answer1").click(function (e) {
+				    e.stopImmediatePropagation();
+				    e.preventDefault();
+				    alert("ya")
+				    //Do important stuff....
+				});
+			}
+        </script>
+    </head>
+    <body>
+        <!-- Home -->
+        <div data-role="page" id="graph">
+            <div data-theme="a" data-role="header" data-position="fixed">
+                <h3>
+                    Buzz!
+                </h3>
+            </div>
+            <div id="container" data-role="content" style="padding: 15px">
+                <h2 id="graphTitle">
+                    Results
+                </h2>
+                
+                <div id="pie1" style="height:400px;width:300px; "></div>
+
+            </div>
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                <h3 id="timeLeft">
+                    Time left:
+                </h3>
+            </div>
+        </div>
+        <script>
+            //App custom javascript
+        </script>
+    </body>
+</html>
