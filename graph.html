@@ -8,13 +8,30 @@
         
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
         <link rel="stylesheet" href="my.css" />
+        <link rel="stylesheet" href="css/jquery.jqplot.min.css" />
         <style>
             /* App custom styles */
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         </script>
+        <script type="text/javascript">
+        	$(document).bind("mobileinit", function(){
+				$( 'div[data-role="page"]' ).live( 'pageshow',function(event, ui){
+					window.pageID = event.target.id;
+					
+					if (!(typeof window.iosocket === 'undefined') && window.iosocket !== null) {
+						// Ask the server for a status update
+						window.iosocket.emit("status", {});
+					}
+					
+
+				});
+			});
+		</script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.js">
         </script>
+        <script src="js/jquery.jqplot.min.js"></script>
+        <script src="js/jqplot.pieRenderer.min.js"></script>
         <script src="http://prometheus.espinha.pt/socket.io/socket.io.js"></script>
         <script src="my.js">
         </script>
@@ -41,7 +58,35 @@
 				});
 				
 				socket.on("graph", function (data) {
-					$.mobile.changePage("graph.html");
+					if (window.pageID != "graph" ) {
+						$.mobile.changePage("graph.html");
+					} else {
+						var graphData = new Array();
+						graphData[0] = new Array();
+						
+						$.each( data.results, function(i, n){
+							graphData[0].push([data.answers[i],n]);
+						});
+						$("#graphTitle").html("Results for \""+data.question+"\"");
+						
+						var plot1 = $.jqplot('pie1', graphData, {
+					        gridPadding: {top:0, bottom:38, left:0, right:0},
+					        seriesDefaults:{
+					            renderer:$.jqplot.PieRenderer, 
+					            trendline:{ show:false }, 
+					            rendererOptions: { padding: 8, showDataLabels: true }
+					        },
+					        legend:{
+					            show:true, 
+					            placement: 'outside', 
+					            rendererOptions: {
+					                numberRows: 1
+					            }, 
+					            location:'s',
+					            marginTop: '15px'
+					        }       
+					    });
+					}
 				});
 				
 				// Ask the server for a status update
@@ -74,7 +119,7 @@
             </div>
             <div data-theme="a" data-role="footer" data-position="fixed">
                 <h3 id="timeLeft">
-                    Time left:
+                    The results are in!
                 </h3>
             </div>
         </div>
