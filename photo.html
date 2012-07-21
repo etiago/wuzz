@@ -50,11 +50,19 @@
 						  $("#answer"+index).css("display","block");
 					});
 					
-				});
-				
-				socket.on("tick", function (data) {
-					var seconds = data["secondsLeft"];
-					$("#timeLeft").html("Time left: "+seconds+" seconds.");
+					window.tickID = setInterval((function(secondsLeft) {
+							return function() {
+								secondsLeft--;
+								if (secondsLeft == 0) {
+									clearInterval(window.tickID);
+									delete(window.tickID);
+									
+									setTimeout((function(){return function() {window.iosocket.emit("status", {})};})(),3000);
+								}
+								$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
+							};
+						})(questionData["secondsLeft"]),1000);
+					
 				});
 				
 				var photoName = "";
@@ -66,7 +74,6 @@
 						}
 					}
 				);
-					
 				
 				socket.on("graph", function (data) {
 					if (window.pageID != "graph" ) {
@@ -114,23 +121,23 @@
     </head>
     <body>
         <!-- Home -->
-        <div data-role="page" id="graph">
+        <div data-role="page" id="photo">
             <div data-theme="a" data-role="header" data-position="fixed">
                 <h3>
                     Buzz!
                 </h3>
             </div>
             <div id="container" data-role="content" style="padding: 15px">
-                <h2 id="graphTitle">
-                    Results
+                <h2 id="photoTitle">
+                    Photo
                 </h2>
                 
-                <div id="pie1" style="height:400px;width:300px; "></div>
-
+                <div id="photoSlot" style="height:400px;width:300px; "></div>
+                
             </div>
             <div data-theme="a" data-role="footer" data-position="fixed">
                 <h3 id="timeLeft">
-                    The results are in!
+                    Evidence
                 </h3>
             </div>
         </div>
