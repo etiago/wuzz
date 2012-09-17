@@ -26,25 +26,28 @@
     </head>
     <body>
         <!-- Home -->
-        <div data-role="page" id="question">
+        <div data-role="page" id="account">
             <div data-theme="a" data-role="header" data-position="fixed">
                 <h3>
                     Buzz!
                 </h3>
             </div>
-            <div id="container" data-role="content" style="padding: 15px">
-                <h2 id="questionTitle">
-                    Question
-                </h2>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer1" style="display:none;">Answer</a>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer2" style="display:none;">Answer</a>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer3" style="display:none;">Answer</a>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer4" style="display:none;">Answer</a>
-                
+            <div data-role="content" style="padding: 15px">
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="textinput1">
+                            Display name
+                        </label>
+                        <input name="" id="inUsername" placeholder="Teams are allowed!" value="" type="text" />
+                    </fieldset>
+                </div>
+                <a id="btnRegister" data-role="button" data-transition="fade" href="#page1">
+                    Register
+                </a>
             </div>
             <div data-theme="a" data-role="footer" data-position="fixed">
-                <h3 id="timeLeft">
-                    Time left:
+                <h3>
+                    
                 </h3>
             </div>
         </div>

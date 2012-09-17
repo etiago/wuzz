@@ -14,20 +14,7 @@
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         </script>
-        <script type="text/javascript">
-        	$(document).bind("mobileinit", function(){
-				$( 'div[data-role="page"]' ).live( 'pageshow',function(event, ui){
-					window.pageID = event.target.id;
-					
-					if (!(typeof window.iosocket === 'undefined') && window.iosocket !== null) {
-						// Ask the server for a status update
-						window.iosocket.emit("status", {});
-					}
-					
-
-				});
-			});
-		</script>
+        <script src="js/init.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.js">
         </script>
         <script src="js/jquery.jqplot.min.js"></script>
