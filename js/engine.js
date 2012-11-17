@@ -8,6 +8,26 @@
 		
 	}
 	
+	window.Buzz.functions["loginCheck"] = function() {
+		if (window.pageID != "account" ) {
+			$.mobile.changePage("account.html");
+			return;
+		}
+		
+		$("#btnRegister").click(function(e){
+			socket.emit("registration", {action:"register",username:$("#inUsername").val()});
+		});
+			
+		if (localStorage.loginHash) {
+			socket.emit("registration", {action:"checkHash",loginHash:localStorage.loginHash});
+			
+			// Ask the server for a status update
+			//socket.emit("status", {});
+		} else {
+			$.mobile.changePage("account.html");
+		}
+	}
+	
 	window.Buzz.callbacks = new Object();
 	
 	window.Buzz.callbacks["account"] = function(data) {
@@ -105,31 +125,12 @@
 	window.Buzz.callbacks["registration"] = function(data) {
 		if (data["status"] == "success") {
 			localStorage.loginHash = data["loginHash"];
+			localStorage.username = data["username"];
 			socket.emit("status", {});
 		}
 	};
 	
-	window.Buzz.functions["loginCheck"] = function() {
-		if (window.pageID != "account" ) {
-			$.mobile.changePage("account.html");
-			return;
-		}
-		
-		$("#btnRegister").click(function(e){
-			socket.emit("registration", {action:"register",username:$("#inUsername").val()});
-		});
-			
-		if (localStorage.loginHash) {
-			socket.emit("registration", {action:"checkHash",loginHash:localStorage.loginHash});
-			
-			// Ask the server for a status update
-			//socket.emit("status", {});
-		} else {
-			$.mobile.changePage("account.html");
-		}
-	}
-	
-	var initializeCallbacks = function() {
+	window.Buzz.initializeCallbacks = function() {
 		//socket.on("account", window.Buzz.callbacks["account"]);
 		socket.on("registration", window.Buzz.callbacks["registration"]);
 		
@@ -142,7 +143,7 @@
 	}
     
 	window.onload = function() {
-    	initializeCallbacks();
+    	window.Buzz.initializeCallbacks();
 		window.Buzz.functions.loginCheck();
 	}
 })();

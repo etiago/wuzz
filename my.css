@@ -1,3 +1,10 @@
+#userMenu {
+	position: absolute;
+	bottom: 11px;
+	left: 10px;	
+	
+}
+
 .text-align-center {
   text-align: center;
 }
