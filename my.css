@@ -1,8 +1,23 @@
 #userMenu {
 	position: absolute;
-	bottom: 11px;
-	left: 10px;	
+	bottom: 5px;
+	left: 10px;		
+	font-size: 10px;
+	font-weight: normal;
+}
+
+#userMenu a {
+	width: 70px;
 	
+}
+
+#account .accountError {
+	-moz-border-radius: 0em /*{global-radii-buttons}*/;
+	-webkit-border-radius: 0em /*{global-radii-buttons}*/;
+	border-radius: 0em /*{global-radii-buttons}*/;
+}
+#usernameErrorDiv {
+		display: none;
 }
 
 .text-align-center {

@@ -8,6 +8,7 @@
         
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
         <link rel="stylesheet" href="my.css" />
+        <link rel="stylesheet" href="themes/buzz-new.css" />
         <link rel="stylesheet" href="css/jquery.jqplot.min.css" />
         <style>
             /* App custom styles */
@@ -15,34 +16,37 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         </script>
         <script src="js/init.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.js">
-        </script>
+
         <script src="js/jquery.jqplot.min.js"></script>
         <script src="js/jqplot.pieRenderer.min.js"></script>
-        <script src="http://prometheus.espinha.pt/socket.io/socket.io.js"></script>
+        <script src="http://prometheus.fritz.box/socket.io/socket.io.js"></script>
         <script src="my.js">
         </script>
         <script src="js/engine.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
     </head>
     <body>
         <!-- Home -->
         <div data-role="page" id="question">
             <div data-theme="a" data-role="header" data-position="fixed">
+            	<div id="userMenu">Logged in as <span id="lblUsername"></span> </div>
                 <h3>
                     Buzz!
                 </h3>
-                <div id="userMenu">Logged in as Tiago</div>
+                <a id="btnSettings" data-role="button" data-theme="a" data-iconpos="notext" data-icon="gear"></a>
             </div>
             <div id="container" data-role="content" style="padding: 15px">
                 <h2 id="questionTitle">
                     Question
                 </h2>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer1" style="display:none;">Answer</a>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer2" style="display:none;">Answer</a>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer3" style="display:none;">Answer</a>
-                <a data-role="button" data-transition="slide" data-theme="b" id="answer4" style="display:none;">Answer</a>
+                <a data-role="button" data-transition="slide" data-theme="a" id="answer1" style="display:none;">Answer</a>
+                <a data-role="button" data-transition="slide" data-theme="a" id="answer2" style="display:none;">Answer</a>
+                <a data-role="button" data-transition="slide" data-theme="a" id="answer3" style="display:none;">Answer</a>
+                <a data-role="button" data-transition="slide" data-theme="a" id="answer4" style="display:none;">Answer</a>
                 
             </div>
+
             <div data-theme="a" data-role="footer" data-position="fixed">
                 <h3 id="timeLeft">
                     Time left:

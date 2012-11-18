@@ -27,29 +27,22 @@
     </head>
     <body>
         <!-- Home -->
-        <div data-role="page" id="account">
+        <div data-role="page" id="question">
             <div data-theme="a" data-role="header" data-position="fixed">
                 <h3>
                     Buzz!
                 </h3>
             </div>
-            <div data-role="content" style="padding: 15px">
-                <div data-role="fieldcontain">
-                    <fieldset data-role="controlgroup">
-                        <label for="textinput1">
-                            Display name
-                        </label>
-                        <input name="" id="inUsername" placeholder="Teams are allowed!" value="" type="text" />
-                        <div id="usernameErrorDiv"><a id="usernameMsg" class="accountError" data-role="button" data-icon="delete" data-corners="false" data-theme="c">Username already in use!</a></div>
-                    </fieldset>
-                </div>
-                <a id="btnSave" data-role="button" data-transition="fade" href="#page1">
-                    Save
-                </a>
+            <div id="container" data-role="content" style="padding: 15px">
+                <h2 id="errorTitle">
+                    Error!
+                </h2>
+
+                
             </div>
             <div data-theme="a" data-role="footer" data-position="fixed">
-                <h3>
-                    
+                <h3 id="timeLeft">
+                    Time left:
                 </h3>
             </div>
         </div>

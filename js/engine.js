@@ -1,28 +1,30 @@
 (function() {
-	var socket = io.connect('http://prometheus.espinha.pt:80');
+	var socket = io.connect('http://prometheus.fritz.box:80');
 	window.Buzz = new Object();
 	
 	window.Buzz.iosocket = socket;
+	
+	window.Buzz.ui = new Object();
+	window.Buzz.ui["btnChangeClick"] = function() {
+			$.mobile.changePage("account.html");
+	};
+	
+	window.Buzz.handlers = new Object();
+	
+	window.Buzz.handlers["account"] = new Object();
+	window.Buzz.handlers["account"]["btnSave"] = function(e){
+
+		socket.emit("registration", {action:"register",username:$("#inUsername").val()});
+	};
+	
 	window.Buzz.functions = new Object();
-	window.Buzz.functions["nodeEventHandler"] = function(eventData) {
-		
-	}
 	
 	window.Buzz.functions["loginCheck"] = function() {
-		if (window.pageID != "account" ) {
-			$.mobile.changePage("account.html");
-			return;
-		}
-		
-		$("#btnRegister").click(function(e){
-			socket.emit("registration", {action:"register",username:$("#inUsername").val()});
-		});
+		//$("#btnSave").unbind();
+		//$("#btnSave").click(window.Buzz.ui.btnSave);
 			
 		if (localStorage.loginHash) {
 			socket.emit("registration", {action:"checkHash",loginHash:localStorage.loginHash});
-			
-			// Ask the server for a status update
-			//socket.emit("status", {});
 		} else {
 			$.mobile.changePage("account.html");
 		}
@@ -89,6 +91,7 @@
 		
 			$.each(questionData["answers"], function(index, value) {
 				  index++;
+				  $("#answer"+index).unbind();
 				  $("#answer"+index).click((function(idx, socket){
 				  			return function (e) {
 									e.stopImmediatePropagation();
@@ -119,6 +122,8 @@
 						
 					};
 				})(questionData["secondsLeft"]),1000);
+		$("#lblUsername").html(localStorage.username);
+		
 		
 	};
 	
@@ -127,6 +132,16 @@
 			localStorage.loginHash = data["loginHash"];
 			localStorage.username = data["username"];
 			socket.emit("status", {});
+			
+			return;
+		}
+		
+		if (data["status"] == "error") {
+			// Show error
+			if (data["error"] == "nonexistant_hash") {
+				
+			}	
+			
 		}
 	};
 	
@@ -143,7 +158,7 @@
 	}
     
 	window.onload = function() {
-    	window.Buzz.initializeCallbacks();
 		window.Buzz.functions.loginCheck();
+    	window.Buzz.initializeCallbacks();
 	}
 })();
