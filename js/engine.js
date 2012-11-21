@@ -4,17 +4,24 @@
 	
 	window.Buzz.iosocket = socket;
 	
-	window.Buzz.ui = new Object();
-	window.Buzz.ui["btnChangeClick"] = function() {
+	window.Buzz.handlers = new Object();
+	
+	//window.Buzz.handlers["global"] = new Object();
+	window.Buzz.handlers["h_btnSettings"] = function() {
+			
 			$.mobile.changePage("account.html");
 	};
 	
-	window.Buzz.handlers = new Object();
-	
-	window.Buzz.handlers["account"] = new Object();
-	window.Buzz.handlers["account"]["btnSave"] = function(e){
-
-		socket.emit("registration", {action:"register",username:$("#inUsername").val()});
+	window.Buzz.handlers["acc_btnSave"] = function(e){
+		var obj = new Object();
+		obj.action = "register";
+		obj.username = $("#inUsername").val();
+		
+		if (localStorage.loginHash) {
+			obj.loginHash = localStorage.loginHash;
+		}
+		
+		socket.emit("registration", obj);
 	};
 	
 	window.Buzz.functions = new Object();
@@ -29,6 +36,14 @@
 			$.mobile.changePage("account.html");
 		}
 	}
+	
+	window.Buzz.functions.pagebeforeshow = new Object();
+	
+	window.Buzz.functions.pagebeforeshow["account"] = function() {
+		if (localStorage.username) {
+			$("#inUsername").val(localStorage.username);
+		}	
+	};
 	
 	window.Buzz.callbacks = new Object();
 	
@@ -108,21 +123,24 @@
 				  $("#answer"+index).css("display","block");
 			});
 		
-			window.tickID = setInterval((function(secondsLeft) {
-					return function() {
-						secondsLeft--;
-						if (secondsLeft == 0) {
-							clearInterval(window.tickID);
-							delete(window.tickID);
+			if (window.tickID == null) {
+				window.tickID = setInterval((function(secondsLeft) {
+						return function() {
+							secondsLeft--;
+							if (secondsLeft == 0) {
+								clearInterval(window.tickID);
+								delete(window.tickID);
+								
+								setTimeout((function(){return function() {window.iosocket.emit("status", {})};})(),3000);
+							}
+							$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
 							
-							setTimeout((function(){return function() {window.iosocket.emit("status", {})};})(),3000);
-						}
-						$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
-						
-						
-					};
-				})(questionData["secondsLeft"]),1000);
-		$("#lblUsername").html(localStorage.username);
+							
+						};
+					})(questionData["secondsLeft"]),1000);
+			}
+			
+			$("#lblUsername").html(localStorage.username);
 		
 		
 	};
@@ -140,8 +158,15 @@
 			// Show error
 			if (data["error"] == "nonexistant_hash") {
 				
+			} else if (data["error"] == "empty_hash") {
+				// This really shouldn't happen, just preventing smartass hackers
+				
 			}	
 			
+			// Eh screw it, just delete it always and recheck
+			delete localStorage.loginHash;
+			delete localStorage.username;
+			window.Buzz.functions.loginCheck();
 		}
 	};
 	
