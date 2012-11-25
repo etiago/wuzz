@@ -37,6 +37,38 @@ io.sockets.on('connection', function(socket) {
 				if (data.loginHash != null) {
 					db.users.findOne({hash:data.loginHash},(function(socket,data) {
 						return function(err, user) {
+							if (user != null && data.username != "") {
+								db.users.findOne({username:data.username}, (function(socket,data){
+									return function(err, user) {
+										if (user == null) {
+											shasum = crypto.createHash('sha1');
+		                                                                        shasum.update(data.username);
+
+                		                                                        var retObj = new Object();
+                                		                                        retObj.status = "success";
+                                                		                        retObj.loginHash = shasum.digest("hex");
+                                                                		        retObj.username = data.username;
+                                                        
+                                                     			                db.users.save({username: data.username, hash: retObj.loginHash, nameChanges: 0});
+
+                                                                        		socket.emit("registration", retObj);
+                                                                        		return;
+										} else {
+											// User exists
+										}
+									};
+								})(socket,data));
+
+							} else
+								// Couldn't find hash, throw error force reset
+							}
+						};
+					})(socket,data));
+
+				
+				if (data.username != null)
+					db.users.findOne({hash:data.loginHash},(function(socket,data) {
+						return function(err, user) {
 							if (user == null) {
 								// Emit error, have hash, couldn't find it
 								var retObj = new Object();
@@ -72,20 +104,37 @@ io.sockets.on('connection', function(socket) {
 							return;
 						};
 					})(socket,data));
-					return;
-				} 
-
-				// No hash, thus normal registration
-				shasum = crypto.createHash('sha1');
-				shasum.update(data.username);
-				var retObj = new Object();
-				retObj.status = "success";
-				retObj.loginHash = shasum.digest("hex");
-				retObj.username = data.username;
 				
-				db.users.save({username:data.username,hash:retObj.loginHash,nameChanges:0});
+					
+				db.users.findOne({username:data.username},(function(socket){
+					return function(err, user) {
+						// If the user doesn't exist, perfect. Register.
+						if (user == null) {
+							shasum = crypto.createHash('sha1');
+			                                shasum.update(data.username);
+                        			        var retObj = new Object();
+                                			retObj.status = "success";
+                                			retObj.loginHash = shasum.digest("hex");
+                                			retObj.username = data.username;
+                                
+                                			db.users.save({username:data.username,hash:retObj.loginHash,nameChanges:0});
 
-				socket.emit("registration", retObj);
+                                			socket.emit("registration", retObj);
+
+							return;
+						} else {
+							var retObj = new Object();
+
+							retObj.status = "error";
+							retObj.error = "user_exists";
+
+							socket.emit("registration", retObj);
+
+							return;
+						}
+					};
+				})(socket));
+
 				
 				return;				
 			}
