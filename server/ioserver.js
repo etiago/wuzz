@@ -30,7 +30,7 @@ function handler (req, res) {
 
 function RegistrationClosure(socket, data, user_by_hash) {
 	this.go = (function() {
-		return new function(err, mongoData) {
+		return new function(err, user) {
 			if (user == null) {
 				shasum = crypto.createHash('sha1');
 		        shasum.update(data.username);
