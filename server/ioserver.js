@@ -76,7 +76,7 @@ io.sockets.on('connection', function(socket) {
 					db.users.findOne({hash:data.loginHash},(function(socket,data) {
 						return function(err, user) {
 							if (user != null && data.username != "") {
-								db.users.findOne({username:data.username}, new Registration(socket,data,user_by_hash).go);
+								db.users.findOne({username:data.username}, new RegistrationClosure(socket,data,user_by_hash).go);
 
 								return;
 							} else {
@@ -94,7 +94,7 @@ io.sockets.on('connection', function(socket) {
 				}
 				
 				if (data.username != null) {
-					db.users.findOne({username:data.username},new Registration(socket,data).go);
+					db.users.findOne({username:data.username},new RegistrationClosure(socket,data).go);
 					
 					return;
 				}				
