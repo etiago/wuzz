@@ -161,7 +161,10 @@
 			} else if (data["error"] == "empty_hash") {
 				// This really shouldn't happen, just preventing smartass hackers
 				
-			}	
+			} else if (data["error"] == "user_exists") {
+				// Self-explanatory
+				$("#usernameErrorDiv").slideDown();
+			}
 			
 			// Eh screw it, just delete it always and recheck
 			delete localStorage.loginHash;
