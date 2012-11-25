@@ -42,7 +42,7 @@ function RegistrationClosure(socket, data, user_by_hash) {
 		
 				if (user_by_hash != null) {
 					user_by_hash.username = data.username;
-					user_by_hash.loginHash = retObj.loginHash;
+					user_by_hash.hash = retObj.loginHash;
 					user_by_hash.nameChanges++;
 					
 					db.users.save(user_by_hash);	
