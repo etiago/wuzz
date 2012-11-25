@@ -169,12 +169,13 @@ function nextCommand(sck) {
 function ioEventStatus(sck, broadcast) {
 	return function(data) {
 		db.status.findOne({_id:1},(function(sck, broadcast) {                                      
-                                                return function(err, status) {
-                                                		if (status === null) return;
-                                                                emitPayload(sck, status, broadcast);
-                                                        };
-                                        })(sck, broadcast));
-         };
+			return function(err, status) {
+				if (status === null) return;
+
+                emitPayload(sck, status, broadcast);
+            };
+        })(sck, broadcast));
+     };
 }
 
 function emitPayload(sck, data, broadcast) {
@@ -185,43 +186,48 @@ function emitPayload(sck, data, broadcast) {
 
 	db.steps.findOne({step:data.step}, (function(payload, broadcast) {
 			return function(err, step) {
-				if (step.screen == "question") {
-                			payload.questionName = "question"+step.fkey;
+				if (step.screen == "intro") {
+					if (broadcast) {
+						sck.broadcast.emit("intro", {});
+					} else {
+						sck.emit("intro", {});
+					}
+				} else if (step.screen == "question") {
+                	payload.questionName = "question"+step.fkey;
 
-                			db.questions.findOne({_id:step.fkey}, (function(payload, broadcast) {
-                        			return function(err, question) {
-                                			payload.question = question.text;
-                                			payload.answers = question.answers;
-                                			if (broadcast) {
-                                        			sck.broadcast.emit("question", payload);
-                                			} else {
-                                        			sck.emit("question",payload);
-                                			}
-                        			};
-                			})(payload, broadcast));
-        			} else if (step.screen == "graph") {
-                			db.questions.findOne({_id:step.fkey}, (function(payload, broadcast) {
-                        			return function(err, question) {
-                                			payload.question = question.text;
-                                			payload.answers = question.answers;
-                                			payload.results = question.result_count;
-                                			if (broadcast) {
-                                        			sck.broadcast.emit("graph", payload);
-                                			} else {
-                                        			sck.emit("graph", payload);
-                                			}
-                        			};
-                			})(payload, broadcast));
-        			} else if (step.screen == "photo") {
+        			db.questions.findOne({_id:step.fkey}, (function(payload, broadcast) {
+                			return function(err, question) {
+                        			payload.question = question.text;
+                        			payload.answers = question.answers;
+                        			if (broadcast) {
+                                			sck.broadcast.emit("question", payload);
+                        			} else {
+                                			sck.emit("question",payload);
+                        			}
+                			};
+        			})(payload, broadcast));
+    			} else if (step.screen == "graph") {
+	    			db.questions.findOne({_id:step.fkey}, (function(payload, broadcast) {
+	            			return function(err, question) {
+	                    			payload.question = question.text;
+	                    			payload.answers = question.answers;
+	                    			payload.results = question.result_count;
+	                    			if (broadcast) {
+	                            			sck.broadcast.emit("graph", payload);
+	                    			} else {
+	                            			sck.emit("graph", payload);
+	                    			}
+	            			};
+	    			})(payload, broadcast));
+    			} else if (step.screen == "photo") {
 					payload.photoName = step.fkey+".jpg";
 					if (broadcast) {
-                                        	sck.broadcast.emit("photo", payload);
-                                        } else {
-                                                sck.emit("photo", payload);
-                                        }
+                    	sck.broadcast.emit("photo", payload);
+                    } else {
+	                    sck.emit("photo", payload);
+                    }
 				}
 			};
 		})(payload, broadcast)
 	);
-
 }
