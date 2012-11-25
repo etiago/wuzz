@@ -28,43 +28,43 @@ function handler (req, res) {
   });
 }
 
-var buzz = new Object();
-
-buzz.cb = new Object();
-
-buzz.cb.registerIfNull = function(err, user) {
-	if (user == null) {
-		shasum = crypto.createHash('sha1');
-        shasum.update(data.username);
-
-        var retObj = new Object();
-        retObj.status = "success";
-        retObj.loginHash = shasum.digest("hex");
-        retObj.username = data.username;
-
-		if (user_by_hash != null) {
-			user_by_hash.username = data.username;
-			user_by_hash.loginHash = retObj.loginHash;
-			user_by_hash.nameChanges++;
-			
-			db.users.save(user_by_hash);	
-		} else {
-			db.users.save({username: data.username, hash: retObj.loginHash, nameChanges: 0});
-		}
-        
-		socket.emit("registration", retObj);
-		return;
-	} else {
-		var retObj = new Object();
-
-		retObj.status = "error";
-		retObj.error = "user_exists";
-
-		socket.emit("registration", retObj);
-
-		return;
-	}
-};
+function RegistrationClosure(socket, data, user_by_hash) {
+	this.go = (function() {
+		return new function(err, mongoData) {
+			if (user == null) {
+				shasum = crypto.createHash('sha1');
+		        shasum.update(data.username);
+		
+		        var retObj = new Object();
+		        retObj.status = "success";
+		        retObj.loginHash = shasum.digest("hex");
+		        retObj.username = data.username;
+		
+				if (user_by_hash != null) {
+					user_by_hash.username = data.username;
+					user_by_hash.loginHash = retObj.loginHash;
+					user_by_hash.nameChanges++;
+					
+					db.users.save(user_by_hash);	
+				} else {
+					db.users.save({username: data.username, hash: retObj.loginHash, nameChanges: 0});
+				}
+		        
+				socket.emit("registration", retObj);
+				return;
+			} else {
+				var retObj = new Object();
+		
+				retObj.status = "error";
+				retObj.error = "user_exists";
+		
+				socket.emit("registration", retObj);
+		
+				return;
+			}
+		};
+	})();
+}
 
 io.sockets.on('connection', function(socket) {
 	socket.on('status', (ioEventStatus(socket, false)));
@@ -76,9 +76,7 @@ io.sockets.on('connection', function(socket) {
 					db.users.findOne({hash:data.loginHash},(function(socket,data) {
 						return function(err, user) {
 							if (user != null && data.username != "") {
-								db.users.findOne({username:data.username}, (function(socket,data,user_by_hash){
-									return buzz.cb.registerIfNull;
-								})(socket,data,user));
+								db.users.findOne({username:data.username}, new Registration(socket,data,user_by_hash).go);
 
 								return;
 							} else {
@@ -96,9 +94,7 @@ io.sockets.on('connection', function(socket) {
 				}
 				
 				if (data.username != null) {
-					db.users.findOne({username:data.username},(function(socket,data) {
-						return buzz.cb.registerIfNull;
-					})(socket,data));
+					db.users.findOne({username:data.username},new Registration(socket,data).go);
 					
 					return;
 				}				
