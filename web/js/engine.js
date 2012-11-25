@@ -47,6 +47,14 @@
 	
 	window.Buzz.callbacks = new Object();
 	
+	window.Buzz.callbacks["intro"] = function(data) {
+		if (window.pageID != "intro" ) {
+			$.mobile.changePage("index.html");
+		} else {
+			
+		}
+	}
+	
 	window.Buzz.callbacks["account"] = function(data) {
 			if (window.pageID != "account" ) {
 				$.mobile.changePage("account.html");
@@ -175,6 +183,8 @@
 	
 	window.Buzz.initializeCallbacks = function() {
 		//socket.on("account", window.Buzz.callbacks["account"]);
+		socket.on("intro", window.Buzz.callbacks["intro"]);
+		
 		socket.on("registration", window.Buzz.callbacks["registration"]);
 		
 		socket.on("question",window.Buzz.callbacks["question"]);
