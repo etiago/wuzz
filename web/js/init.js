@@ -5,7 +5,7 @@ $(document).bind("mobileinit", function(){
 		
 		if (!(typeof window.Buzz.iosocket === 'undefined') && window.Buzz.iosocket !== null) {
 			if (window.pageID == "account") {
-				window.Buzz.functions.pagebeforeshow["account"]();
+				//window.Buzz.functions.pagebeforeshow["account"]();
 			} else {
 				// Ask the server for a status update
 				window.Buzz.iosocket.emit("status", {});

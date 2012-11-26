@@ -31,14 +31,15 @@
 	window.Buzz.functions = new Object();
 	
 	window.Buzz.functions["loginCheck"] = function() {
-		if (window.pageID == "intro") return;
-		
+		// If we have local login data, verify it
 		if (localStorage.loginHash) {
 			socket.emit("registration", {action:"checkHash",loginHash:localStorage.loginHash});
-		} else {
-			$.mobile.changePage("account.html");
+			return;
 		}
-	}
+		
+		// Otherwise ask for status
+		socket.emit("status",{});
+	};
 	
 	window.Buzz.functions.pagebeforeshow = new Object();
 	
@@ -180,22 +181,61 @@
 			// Eh screw it, just delete it always and recheck
 			delete localStorage.loginHash;
 			delete localStorage.username;
-			window.Buzz.functions.loginCheck();
+			socket.emit("status",{});
 		}
 	};
 	
+	// TODO: Redirect based on rules
+	function StatusReply(trigger) {
+		this.go = (function() {
+			return function(data) {
+				var noLoginPages = {intro:"index.html"};
+				
+				if (trigger in noLoginPages != -1) {
+					$.mobile.changePage(noLoginPages[trigger]);
+					return;
+				}
+				
+				if (trigger == "registration") {
+					window.Buzz.callbacks[trigger](data);
+					return;
+				}
+				
+				if (localStorage.username == null || localStorage.loginHash == null) {
+					$.mobile.changePage("account.html");
+					return;
+				}
+				
+				window.Buzz.callbacks[trigger](data);
+				return;
+			};
+		})();
+	}
+	
 	window.Buzz.initializeCallbacks = function() {
 		//socket.on("account", window.Buzz.callbacks["account"]);
-		socket.on("intro", window.Buzz.callbacks["intro"]);
 		
-		socket.on("registration", window.Buzz.callbacks["registration"]);
+		socket.on("intro", new StatusReply("intro").go);
 		
-		socket.on("question",window.Buzz.callbacks["question"]);
+		socket.on("registration", new StatusReply("registration").go);
+		
+		socket.on("question",new StatusReply("question").go);
 	
 		var photoName = "";
-		socket.on("photo", window.Buzz.callbacks["photo"]);
+		socket.on("photo", new StatusReply("photo").go);
 		
-		socket.on("graph", window.Buzz.callbacks["graph"]);
+		socket.on("graph", new StatusReply("graph").go);
+		
+		// socket.on("intro", window.Buzz.callbacks["intro"]);
+// 		
+		// socket.on("registration", window.Buzz.callbacks["registration"]);
+// 		
+		// socket.on("question",window.Buzz.callbacks["question"]);
+// 	
+		// var photoName = "";
+		// socket.on("photo", window.Buzz.callbacks["photo"]);
+// 		
+		// socket.on("graph", window.Buzz.callbacks["graph"]);
 	}
     
 	window.onload = function() {
