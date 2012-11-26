@@ -12,6 +12,10 @@
 			$.mobile.changePage("account.html");
 	};
 	
+	window.Buzz.handlers["i_btnRegister"] = function() {
+			$.mobile.changePage("account.html");
+	}
+	
 	window.Buzz.handlers["acc_btnSave"] = function(e){
 		var obj = new Object();
 		obj.action = "register";
@@ -27,9 +31,8 @@
 	window.Buzz.functions = new Object();
 	
 	window.Buzz.functions["loginCheck"] = function() {
-		//$("#btnSave").unbind();
-		//$("#btnSave").click(window.Buzz.ui.btnSave);
-			
+		if (window.pageID == "intro") return;
+		
 		if (localStorage.loginHash) {
 			socket.emit("registration", {action:"checkHash",loginHash:localStorage.loginHash});
 		} else {

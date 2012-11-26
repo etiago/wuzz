@@ -29,16 +29,11 @@
     <body>
         <!-- Home -->
         <div data-role="page" id="intro">
-            <div data-theme="a" data-role="header" data-position="fixed">
-            	<div id="userMenu">Logged in as <span id="lblUsername"></span> </div>
-                <h3>
-                    Buzz!
-                </h3>
-                <a id="h_btnSettings" data-role="button" data-theme="a" data-iconpos="notext" data-icon="gear" class="ui-btn-right"></a>
-            </div>
+
             <div id="container" data-role="content" style="padding: 15px">
-                <img src="img/buzz-host.png"/>
-                
+                <img id="img_buzz" src="img/buzz-host.png"/>
+                <div id="i_lblMessage">Welcome stranger! Please choose a username.</div>
+                <a id="i_btnRegister" data-role="button" data-theme="a">Choose username</a>
             </div>
 
             

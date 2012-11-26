@@ -20,6 +20,19 @@
 		display: none;
 }
 
+#img_buzz {
+	width: 50%;
+}
+#i_lblMessage {
+	font-size: 0.8em;
+	width:40%;
+	position: absolute;
+	top: 18%;
+	left: 35%;
+	text-align: justify;	
+}
+
+
 .text-align-center {
   text-align: center;
 }
