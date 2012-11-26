@@ -191,7 +191,7 @@
 			return function(data) {
 				var noLoginPages = {intro:"index.html"};
 				
-				if (trigger in noLoginPages != -1) {
+				if (trigger in noLoginPages) {
 					$.mobile.changePage(noLoginPages[trigger]);
 					return;
 				}
