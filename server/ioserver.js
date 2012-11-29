@@ -69,6 +69,18 @@ function RegistrationClosure(socket, data, user_by_hash) {
 io.sockets.on('connection', function(socket) {
 	socket.on('status', (ioEventStatus(socket, false)));
 	
+	socket.on('answer', (function(socket){
+		return function(data) {
+			db.users.findOne({username:data.username,hash:data.loginHash}, (function(socket,data) {
+				return function(err, user) {
+					if (user != null) {
+						// TODO: CONTINUE THIS
+					}
+				};
+			})(socket,data));
+		};
+	})(socket));
+	
 	socket.on('registration', (function(socket) { 
 		return function(data) {
 			if (data.action == "register") {

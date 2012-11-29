@@ -49,6 +49,21 @@
 		}	
 	};
 	
+	window.Buzz.functions.pagebeforeshow["account"] = function() {
+		if (localStorage.username) {
+			$("#inUsername").val(localStorage.username);
+		}	
+	};
+	
+	window.Buzz.functions.pagebeforeshow["intro"] = function() {
+		if (localStorage.username) {
+			
+			$("#i_lblMessage").html("Thanks "+localStorage.username+"! The game will start momentarily.");
+		} else {
+			$("#i_lblMessage").html("Welcome stranger! Please choose a username.");
+		}
+	};
+	
 	window.Buzz.callbacks = new Object();
 	
 	window.Buzz.callbacks["intro"] = function(data) {
@@ -123,10 +138,14 @@
 				  			return function (e) {
 									e.stopImmediatePropagation();
 								    e.preventDefault();
-		
-									socket.emit("answer", {user:"xxx",answer:idx});
 									
-								    //Do important stuff....
+									for (var i=1;i<=4;i++)
+										$("#answer"+i).buttonMarkup({ theme: "a" , icon:""});
+									
+									// TODO: Change this! Create submit button.
+									$(this).buttonMarkup({ theme: "c" , icon:"check"});
+									socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:idx});
+									
 							  };
 				  		})(index, socket)
 				  );
