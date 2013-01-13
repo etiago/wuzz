@@ -263,8 +263,9 @@ function emitPayload(sck, broadcast) {
 	var payload = new Object();
 
 	var stepsCursor = db.steps.find();
-	stepsCursor.sort({step:"1"}).limit(1);
-	console.log("Session: %j", stepsCursor);
+	var obj = stepsCursor.sort({step:"1"}).limit(1);
+	
+	console.log("Session: %j", obj);
 	
 	stepsCursor.nextObject((function(socket,user){
 		return function(err, step) {
