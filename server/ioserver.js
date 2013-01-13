@@ -276,7 +276,8 @@ function emitPayload(sck, broadcast) {
 					}
 				} else if (step.screen == "question") {
                 	payload.questionName = "question"+step.fkey;
-
+					console.log("Right screen");
+					
         			db.questions.findOne({_id:step.fkey}, (function(payload, broadcast) {
                 			return function(err, question) {
                         			payload.question = question.text;
