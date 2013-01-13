@@ -265,7 +265,7 @@ function emitPayload(sck, broadcast) {
 	var stepsCursor = db.steps.find()
 	stepsCursor.sort({step:"1"}).limit(1);
 	
-	cursor.nextObject((function(socket,user){
+	stepsCursor.nextObject((function(socket,user){
 		return function(err, step) {
 				payload.secondsLeft = step.seconds_left;
 				
