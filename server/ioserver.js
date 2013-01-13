@@ -74,11 +74,10 @@ io.sockets.on('connection', function(socket) {
 			db.users.findOne({username:data.username,hash:data.loginHash}, (function(socket,data) {
 				return function(err, user) {
 					if (user != null) {
-						var stepsCursor = db.steps.find()
-						stepsCursor.sort({step:"1"}).limit(1);
-						
-						cursor.nextObject((function(socket,data,user){
+						var stepsCursor = db.steps.find().limit(1).sort({step:"1"}, (function(socket,data,user){
 							return function(err, step) {
+								step = step[0];
+								
 								if (step.screen != "question") {
 									// We're not answering questions... skip?
 									
@@ -222,12 +221,9 @@ function processCommand(sck) {
 function nextCommand(sck) {
 	var payload = new Object();
 
-	var stepsCursor = db.steps.find();
-	stepsCursor.sort({step:"1"}).limit(1);
-	
-	stepsCursor.nextObject((function(socket){
+	var stepsCursor = db.steps.find().limit(1).sort({step:"1"},(function(socket){
 		return function(err, step) {
-			db.steps.remove(step);
+			db.steps.remove(step[0]);
 			
 			(ioEventStatus(sck, true))();
 		};
