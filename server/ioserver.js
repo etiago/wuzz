@@ -201,12 +201,6 @@ io.sockets.on('connection', function(socket) {
 		};
 	})(socket));
 
-	socket.on('answer', (function(socket) { 
-		return function(data) {
-			
-		};
-	})(socket));
-
 	db.configs.findOne({_id:"private_key"}, (setCommandHook(socket)));
 	//redisClient.get("private_key", (setCommandHook(socket)));
 });
