@@ -86,6 +86,8 @@ io.sockets.on('connection', function(socket) {
 								
 								db.questions.findOne({_id:step.fkey}, (function(socket,data,user) {
 									return function(err, question) {
+										console.log("Found the question %j",question);
+										
 										if (question.participants.indexOf(user.username)!=-1) {
 											// Already responded, do nothing.
 											
