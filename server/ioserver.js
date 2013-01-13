@@ -222,10 +222,10 @@ function processCommand(sck) {
 function nextCommand(sck) {
 	var payload = new Object();
 
-	var stepsCursor = db.steps.find()
+	var stepsCursor = db.steps.find();
 	stepsCursor.sort({step:"1"}).limit(1);
 	
-	cursor.nextObject((function(socket){
+	stepsCursor.nextObject((function(socket){
 		return function(err, step) {
 			db.steps.remove(step);
 			
@@ -262,8 +262,9 @@ function ioEventStatus(sck, broadcast) {
 function emitPayload(sck, broadcast) {
 	var payload = new Object();
 
-	var stepsCursor = db.steps.find()
+	var stepsCursor = db.steps.find();
 	stepsCursor.sort({step:"1"}).limit(1);
+	print("Step:"+stepsCursor.step);
 	
 	stepsCursor.nextObject((function(socket,user){
 		return function(err, step) {
