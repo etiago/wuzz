@@ -267,7 +267,8 @@ function emitPayload(sck, broadcast) {
 				console.log("Step is %j",step);
 				
 				payload.secondsLeft = step.seconds_left;
-				
+				                        			console.log("Payload is: %j",payload);
+
 				if (step.screen == "intro") {
 					if (broadcast) {
 						sck.broadcast.emit("intro", {});
@@ -287,7 +288,6 @@ function emitPayload(sck, broadcast) {
                         			} else {
                                 			sck.emit("question",payload);
                         			}
-                        			console.log("Payload is: %j",payload);
                 			};
         			})(payload, broadcast));
     			} else if (step.screen == "graph") {
