@@ -264,6 +264,8 @@ function emitPayload(sck, broadcast) {
 
 	var stepsCursor = db.steps.find().limit(1).sort({step:1}, (function(socket,payload, broadcast){
 		return function(err, step) {
+				console.log("Step is %j",step);
+				
 				payload.secondsLeft = step.seconds_left;
 				
 				if (step.screen == "intro") {
