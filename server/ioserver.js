@@ -266,7 +266,7 @@ function emitPayload(sck, broadcast) {
 		return function(err, step) {
 				console.log("Step is %j",step);
 				
-				payload.secondsLeft = step.seconds_left;
+				payload.secondsLeft = step[0].seconds_left;
 				                        			console.log("Payload is: %j",payload);
 
 				if (step.screen == "intro") {
