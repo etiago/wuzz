@@ -93,7 +93,31 @@ io.sockets.on('connection', function(socket) {
 											return;
 										}
 										
-										// TODO: Verify that index exists;
+										if (data.answer >= question.answers.length || data.answer < 0) {
+											// Out of bounds, ignore.
+											
+											return;
+										}
+										
+										if (!question.hasOwnProperty(participants)) {
+											question.participants = [];
+										}
+										
+										if (!question.hasOwnProperty("results")) {
+											question.results = new Object();
+										}
+										
+										if (!question.results.hasOwnProperty(data.answer)) {
+											question.results[data.answer] = [];
+										}
+										
+										if (!question.hasOwnProperty("result_count")) {
+											question.result_count = new Object();
+										}
+										
+										if (!question.result_count.hasOwnProperty(data.answer)) {
+											question.result_count[data.answer] = 0;
+										}
 										
 										question.participants.push(user.username);
 										
@@ -195,31 +219,49 @@ function setCommandHook(sck) {
 
 function processCommand(sck) {
 	return function(data) {
-        	if (data["command"] == "next") {
-			db.status.findOne({_id:1}, (nextCommand(sck)));
+		if (data["command"] == "next") {
+			nextCommand(sck);
 		}     
-        };
+	};
 }
 
 function nextCommand(sck) {
-	return function(err, status) {
-		var next = status.step+1;
-		
-		db.status.update({_id:1},{$set:{step:next}});
+	var payload = new Object();
 
-		(ioEventStatus(sck, true))();
-	}
+	var stepsCursor = db.steps.find()
+	stepsCursor.sort({step:"1"}).limit(1);
+	
+	cursor.nextObject((function(socket){
+		return function(err, step) {
+			db.steps.remove(step);
+			
+			(ioEventStatus(sck, true))();
+		};
+	})(sck));
+	
+	//db.steps.update({_id:1},{$set:{step:next}});
 }
 
 function ioEventStatus(sck, broadcast) {
 	return function(data) {
-		db.status.findOne({_id:1},(function(sck, broadcast) {                                      
-			return function(err, status) {
-				if (status === null) return;
+		// var stepsCursor = db.steps.find()
+		// stepsCursor.sort({step:"1"}).limit(1);
+// 		
+		// cursor.nextObject((function(socket,data,broadcast){
+			// return function(err, step) {
+				// if (step === null) return;
+// 				
+// 				
+			// }
+		// })());
+							
+		// db.status.findOne({_id:1},(function(sck, broadcast) {                                      
+			// return function(err, status) {
+				// if (status === null) return;
 
-                emitPayload(sck, status, broadcast);
-            };
-        })(sck, broadcast));
+                emitPayload(sck, broadcast);
+            // };
+        // })(sck, broadcast));
      };
 }
 
