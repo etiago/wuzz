@@ -1,8 +1,10 @@
 (function() {
-	var socket = io.connect('http://prometheus.fritz.box:80');
+	var socket = io.connect('http://192.168.56.101:80');
 	window.Buzz = new Object();
 	
 	window.Buzz.iosocket = socket;
+	
+	window.Buzz.chosenAnswer = -1;
 	
 	window.Buzz.handlers = new Object();
 	
@@ -27,6 +29,13 @@
 		
 		socket.emit("registration", obj);
 	};
+	
+	window.Buzz.handlers["app_btnSubmit"] = function(e) {
+		if (window.Buzz.chosenAnswer >= 1 && window.Buzz.chosenAnswer <= 4) {
+			// TODO: FInish this
+			socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:idx});
+		}
+	}
 	
 	window.Buzz.functions = new Object();
 	
@@ -142,10 +151,9 @@
 									for (var i=1;i<=4;i++)
 										$("#answer"+i).buttonMarkup({ theme: "a" , icon:""});
 									
-									// TODO: Change this! Create submit button.
 									$(this).buttonMarkup({ theme: "c" , icon:"check"});
-									socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:idx});
 									
+									window.Buzz.chosenAnswer = idx;
 							  };
 				  		})(index, socket)
 				  );

@@ -74,7 +74,40 @@ io.sockets.on('connection', function(socket) {
 			db.users.findOne({username:data.username,hash:data.loginHash}, (function(socket,data) {
 				return function(err, user) {
 					if (user != null) {
-						// TODO: CONTINUE THIS
+						var stepsCursor = db.steps.find()
+						stepsCursor.sort({step:"1"}).limit(1);
+						
+						cursor.nextObject((function(socket,data,user){
+							return function(err, step) {
+								if (step.screen != "question") {
+									// We're not answering questions... skip?
+									
+									return;
+								}
+								
+								db.questions.findOne({_id:step.fkey}, (function(socket,data,user) {
+									return function(err, question) {
+										if (question.participants.indexOf(user.username)!=-1) {
+											// Already responded, do nothing.
+											
+											return;
+										}
+										
+										// TODO: Verify that index exists;
+										
+										question.participants.push(user.username);
+										
+										question.results[data.answer].push(user.username);
+										
+										question.result_count[data.answer] += 1;
+										
+										db.questions.update(question);
+									};
+								})(socket,data,user));
+							};
+						})(socket,data,user));
+					} else {
+						// Couldn't find user. Do nothing?
 					}
 				};
 			})(socket,data));
@@ -190,14 +223,16 @@ function ioEventStatus(sck, broadcast) {
      };
 }
 
-function emitPayload(sck, data, broadcast) {
-	if (data === null) return;
-
+function emitPayload(sck, broadcast) {
 	var payload = new Object();
-	payload.secondsLeft = data.seconds_left;
 
-	db.steps.findOne({step:data.step}, (function(payload, broadcast) {
-			return function(err, step) {
+	var stepsCursor = db.steps.find()
+	stepsCursor.sort({step:"1"}).limit(1);
+	
+	cursor.nextObject((function(socket,user){
+		return function(err, step) {
+				payload.secondsLeft = step.seconds_left;
+				
 				if (step.screen == "intro") {
 					if (broadcast) {
 						sck.broadcast.emit("intro", {});

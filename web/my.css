@@ -32,6 +32,16 @@
 	text-align: justify;	
 }
 
+#legal {
+clear: left;
+display: block;
+border-top: solid 1px #BDBDBD;
+-webkit-box-shadow: #DBDBDB 0 -1px 0;
+box-shadow: #DBDBDB 0 -1px 0;
+background: transparent;
+width: 70%;
+margin: auto;
+}
 
 .text-align-center {
   text-align: center;
