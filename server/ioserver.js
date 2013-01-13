@@ -286,6 +286,7 @@ function emitPayload(sck, broadcast) {
                         			} else {
                                 			sck.emit("question",payload);
                         			}
+                        			console.log("Payload is: %j",payload);
                 			};
         			})(payload, broadcast));
     			} else if (step.screen == "graph") {
