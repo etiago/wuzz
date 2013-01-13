@@ -31,9 +31,9 @@
 	};
 	
 	window.Buzz.handlers["app_btnSubmit"] = function(e) {
-		if (window.Buzz.chosenAnswer >= 1 && window.Buzz.chosenAnswer <= 4) {
+		if (window.Buzz.chosenAnswer >= 0 && window.Buzz.chosenAnswer <= 3) {
 			// TODO: FInish this
-			socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:idx});
+			socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:window.Buzz.chosenAnswer});
 		}
 	}
 	
@@ -153,6 +153,7 @@
 									
 									$(this).buttonMarkup({ theme: "c" , icon:"check"});
 									
+									idx--;
 									window.Buzz.chosenAnswer = idx;
 							  };
 				  		})(index, socket)

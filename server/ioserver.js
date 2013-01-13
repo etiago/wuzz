@@ -71,12 +71,18 @@ io.sockets.on('connection', function(socket) {
 	
 	socket.on('answer', (function(socket){
 		return function(data) {
-			db.users.findOne({username:data.username,hash:data.loginHash}, (function(socket,data) {
+			console.log("Got an answer with data %j",data);
+			
+			db.users.findOne({username:data.username,hash:data.hash}, (function(socket,data) {
 				return function(err, user) {
 					if (user != null) {
+						console.log("User is not null and is %j", user);
+						
 						var stepsCursor = db.steps.find().limit(1).sort({step:"1"}, (function(socket,data,user){
 							return function(err, step) {
 								step = step[0];
+								
+								console.log("Found the step %j",step);
 								
 								if (step.screen != "question") {
 									// We're not answering questions... skip?
@@ -88,21 +94,24 @@ io.sockets.on('connection', function(socket) {
 									return function(err, question) {
 										console.log("Found the question %j",question);
 										
+										if (!question.hasOwnProperty("participants")) {
+											question.participants = [];
+										}
+										
 										if (question.participants.indexOf(user.username)!=-1) {
 											// Already responded, do nothing.
+											console.log("Already responded");
 											
 											return;
 										}
 										
 										if (data.answer >= question.answers.length || data.answer < 0) {
 											// Out of bounds, ignore.
-											
+											console.log("Out of bounds");
 											return;
 										}
 										
-										if (!question.hasOwnProperty(participants)) {
-											question.participants = [];
-										}
+										
 										
 										if (!question.hasOwnProperty("results")) {
 											question.results = new Object();
@@ -126,13 +135,16 @@ io.sockets.on('connection', function(socket) {
 										
 										question.result_count[data.answer] += 1;
 										
-										db.questions.update(question);
+										db.questions.save(question);
+										console.log("updated");
 									};
 								})(socket,data,user));
 							};
 						})(socket,data,user));
 					} else {
 						// Couldn't find user. Do nothing?
+						console.log("User is null.");
+						
 					}
 				};
 			})(socket,data));
@@ -274,8 +286,7 @@ function emitPayload(sck, broadcast) {
 					}
 				} else if (step.screen == "question") {
                 	payload.questionName = "question"+step.fkey;
-					console.log("Right screen");
-					
+
         			db.questions.findOne({_id:step.fkey}, (function(payload, broadcast) {
                 			return function(err, question) {
                         			payload.question = question.text;
