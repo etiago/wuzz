@@ -262,12 +262,7 @@ function ioEventStatus(sck, broadcast) {
 function emitPayload(sck, broadcast) {
 	var payload = new Object();
 
-	var stepsCursor = db.steps.find().sort({step:1}).limit(2);
-	
-	//var obj = stepsCursor.next();
-	//console.log("boo: %j",obj);
-	
-	stepsCursor.nextObject((function(socket,user){
+	var stepsCursor = db.steps.find().limit(1).sort({step:1}, (function(socket,user){
 		return function(err, step) {
 				payload.secondsLeft = step.seconds_left;
 				
