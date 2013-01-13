@@ -262,10 +262,7 @@ function ioEventStatus(sck, broadcast) {
 function emitPayload(sck, broadcast) {
 	var payload = new Object();
 
-	var stepsCursor = db.steps.find({});
-		console.log("Session: %j", stepsCursor);
-
-	var obj = stepsCursor.sort({step:"1"}).limit(1);
+	var stepsCursor = db.steps.find().sort({step:"1"}).limit(1);
 	
 	
 	stepsCursor.nextObject((function(socket,user){
