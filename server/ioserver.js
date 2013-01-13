@@ -264,6 +264,8 @@ function emitPayload(sck, broadcast) {
 
 	var stepsCursor = db.steps.find().sort({step:"1"}).limit(1);
 	
+	var obj = stepsCursor.next();
+	console.log("boo: %j",obj);
 	
 	stepsCursor.nextObject((function(socket,user){
 		return function(err, step) {
