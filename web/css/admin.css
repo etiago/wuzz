@@ -1,0 +1,25 @@
+body {
+	background-color: #8f0303;
+}
+
+#logo {
+  width: auto;
+  max-width: 1024px;
+  height: auto;
+  max-height: 100%;
+  margin: auto;
+  display: block;
+}
+
+#btn_start {
+	color: #FFFFFF;
+	border: 1px solid #ffffff;
+	background-color: #d30000;
+	width: 10%;
+	height: 10%;
+	display: block;
+	position: absolute;
+	top: 43%;
+	margin-left: 43%;
+	font-size: 20px;
+}
