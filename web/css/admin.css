@@ -1,5 +1,6 @@
 body {
 	background-color: #8f0303;
+	font-family: Verdana;
 }
 
 #logo {
@@ -13,13 +14,36 @@ body {
 
 #btn_start {
 	color: #FFFFFF;
-	border: 1px solid #ffffff;
-	background-color: #d30000;
+	border: 2px solid #ffffff;
+	background-color: #8f0303;
 	width: 10%;
 	height: 10%;
 	display: block;
 	position: absolute;
 	top: 43%;
 	margin-left: 43%;
-	font-size: 20px;
+	font-size: 2em;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#btn_start:hover {
+	background-color: #ac2222;
+	cursor: pointer;
+}
+
+#btnWrench {
+	
+	position: absolute;
+	width: 30px;
+	margin-left: 72%;
+}
+
+#configs {
+	position: absolute;
+	display: none;
+	background-color: #FFFFFF;
+	margin-left: 62%;
+	margin-top: 30px;
 }
