@@ -1,5 +1,5 @@
 (function() {
-	var socket = io.connect('http://localhost:8080');
+	var socket = io.connect('http://prometheus.fritz.box:80');
 	
 	window.BuzzAdmin = new Object();
 	
@@ -26,7 +26,18 @@
 	};
 	
 	window.BuzzAdmin.callbacks["question"] = function(data) {
-		alert("Got cb");
+		$("#contentsInit").slideUp();
+
+		$("#questionTitle").html(data.question);
+		$("#answerList").empty();
+		
+		data.answers.forEach(function(answer) {
+			$("#answerList").append("<li class=\"answerElement\">"+answer+"</li>");
+		});
+		
+		
+		
+		$("#contentsQuestion").slideDown();
 	};
 	
 	
@@ -43,20 +54,28 @@
 		$("#configs").slideDown();
 	};
 	
+	window.BuzzAdmin.ui.click["btnStart"] = function() {
+		if (!window.BuzzAdmin.psk) return;
+		
+		socket.emit(window.BuzzAdmin.psk, {command:"next"});
+		//socket.emit("status",{});
+	};
+	
 	window.onload = function() {
-		$("#btn_start").click(function() {
-			$("#contents").slideUp();
-			$("#contents").empty();
-			
-			socket.emit("status",{});
-		});
+		// $("#btn_start").click(function() {
+			// $("#contents").slideUp();
+			// $("#contents").empty();
+// 			
+			// socket.emit("status",{});
+		// });
 		
 		$("#btnSaveConfigs").click(window.BuzzAdmin.ui.click.btnSaveConfigs);
 		$("#btnWrench").click(window.BuzzAdmin.ui.click.btnWrench);
+		$("#btnStart").click(window.BuzzAdmin.ui.click.btnStart);
 		
 		socket.on("intro", window.BuzzAdmin.callbacks.intro);
 		socket.on("question",window.BuzzAdmin.callbacks.question);
 		socket.on("graph",window.BuzzAdmin.callbacks.graph);
-		socket.on("photo",window.BuzzAdmin.callbacks.question);
+		socket.on("photo",window.BuzzAdmin.callbacks.photo);
 	}
 })();

@@ -270,6 +270,7 @@ function ioEventStatus(sck, broadcast) {
 }
 
 function emitPayload(sck, broadcast) {
+	console.log("Emitting payload.");
 	var payload = new Object();
 
 	var stepsCursor = db.steps.find().limit(1).sort({step:1}, (function(socket,payload, broadcast){
@@ -289,13 +290,17 @@ function emitPayload(sck, broadcast) {
 
         			db.questions.findOne({_id:step.fkey}, (function(payload, broadcast) {
                 			return function(err, question) {
+                					console.log("Question to emit: %j", question);
                         			payload.question = question.text;
                         			payload.answers = question.answers;
+                        			
+                        			// Always emit to sender, default broadcast doesn't
+                        			sck.emit("question",payload);
                         			if (broadcast) {
                                 			sck.broadcast.emit("question", payload);
-                        			} else {
-                                			sck.emit("question",payload);
                         			}
+                        			
+                        			console.log("Emitted this: %j. Broadcast: "+broadcast,payload);
                 			};
         			})(payload, broadcast));
     			} else if (step.screen == "graph") {
@@ -319,6 +324,7 @@ function emitPayload(sck, broadcast) {
 	                    sck.emit("photo", payload);
                     }
 				}
+				
 			};
 		})(sck, payload, broadcast)
 	);

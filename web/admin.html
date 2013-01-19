@@ -12,12 +12,11 @@
         </style>
         <script src="js/jquery.min.js">
         </script>
-        <script src="js/init.js"></script>
 
         <script src="js/jquery.jqplot.min.js"></script>
         <script src="js/jqplot.pieRenderer.min.js"></script>
         <!--<script src="http://prometheus.fritz.box/socket.io/socket.io.js"></script>-->
-        <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+        <script src="http://prometheus.fritz.box/socket.io/socket.io.js"></script>
         <script src="js/admin.js"></script>
     </head>
 	<body>
@@ -27,9 +26,22 @@
 			PSK: <input type="input" id="psk"/><br />
 			<input type="button" id="btnSaveConfigs" value="Save" />
 		</div>
-		<div id="contents">
+		<div id="contentsInit">
 			<img id="logo" src="img/buzz.jpg" alt=""/>
-			<input type="button" value="Start" id="btn_start">
+			<input type="button" value="Start" id="btnStart">
+			
+			
+		</div>		
+		
+		<div id="contentsQuestion">
+			<div id="question">
+				<div id="questionTitle"></div>
+				<ul id="answerList">
+				  
+				</ul>
+				
+				<div id="questionTimer"></div>
+			</div>	
 		</div>
 	</body>
 </html>

@@ -1,6 +1,7 @@
 body {
 	background-color: #8f0303;
 	font-family: Verdana;
+	color: #ffde00;
 }
 
 #logo {
@@ -12,7 +13,7 @@ body {
   display: block;
 }
 
-#btn_start {
+#btnStart {
 	color: #FFFFFF;
 	border: 2px solid #ffffff;
 	background-color: #8f0303;
@@ -28,7 +29,7 @@ body {
 	border-radius: 10px;
 }
 
-#btn_start:hover {
+#btnStart:hover {
 	background-color: #ac2222;
 	cursor: pointer;
 }
@@ -47,3 +48,42 @@ body {
 	margin-left: 62%;
 	margin-top: 30px;
 }
+
+#contentsQuestion {
+	display:none;
+}
+#question{
+	width: 50%;
+	margin: auto;
+	text-align: center;
+	
+}
+
+#questionTitle {
+	font-size: 4em;
+	font-weight: bold;
+}
+
+#answerList {
+	list-style: none;
+}
+
+.answerElement {
+	border-color: #590000;
+	border-width: 3px;
+	border-style: solid;
+	
+	color: #f1cfcf;
+	font-size: 2em;
+	font-weight: bold;
+	background-color: #750000;
+	margin: 5px;
+	padding: 5px;
+}
+
+#questionTimer {
+	
+	font-size: 1.5em;
+	margin-left: 6%;
+}
+

@@ -1,5 +1,5 @@
 (function() {
-	var socket = io.connect('http://localhost:8080');
+	var socket = io.connect('http://prometheus.fritz.box:80');
 	window.Buzz = new Object();
 	
 	window.Buzz.iosocket = socket;
