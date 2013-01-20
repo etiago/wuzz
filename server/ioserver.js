@@ -295,9 +295,12 @@ function emitPayload(sck, broadcast) {
                         			payload.answers = question.answers;
                         			
                         			// Always emit to sender, default broadcast doesn't
-                        			sck.emit("question",payload);
+                        			//sck.emit("question",payload);
                         			if (broadcast) {
-                                			sck.broadcast.emit("question", payload);
+                        				io.sockets.emit("question", payload);
+                                		//sck.broadcast.emit("question", payload);
+                        			} else {
+                        				ck.emit("question",payload);
                         			}
                         			
                         			console.log("Emitted this: %j. Broadcast: "+broadcast,payload);
