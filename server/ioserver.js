@@ -281,7 +281,7 @@ function emitPayload(sck, broadcast) {
 
 				if (step.screen == "intro") {
 					if (broadcast) {
-						sck.broadcast.emit("intro", {});
+						io.sockets.emit("intro", {});
 					} else {
 						sck.emit("intro", {});
 					}
@@ -294,13 +294,11 @@ function emitPayload(sck, broadcast) {
                         			payload.question = question.text;
                         			payload.answers = question.answers;
                         			
-                        			// Always emit to sender, default broadcast doesn't
-                        			//sck.emit("question",payload);
                         			if (broadcast) {
+                        				// This is better than sck.broadcast as it emits to client too
                         				io.sockets.emit("question", payload);
-                                		//sck.broadcast.emit("question", payload);
                         			} else {
-                        				ck.emit("question",payload);
+                        				sck.emit("question",payload);
                         			}
                         			
                         			console.log("Emitted this: %j. Broadcast: "+broadcast,payload);
@@ -313,19 +311,21 @@ function emitPayload(sck, broadcast) {
 	                    			payload.answers = question.answers;
 	                    			payload.results = question.result_count;
 	                    			
-	                    			sck.emit("graph", payload);
 	                    			if (broadcast) {
-	                            			sck.broadcast.emit("graph", payload);
+	                    				io.sockets.emit("graph", payload);
+	                    			} else {
+	                    				sck.emit("graph", payload);
 	                    			}
 	            			};
 	    			})(payload, broadcast));
     			} else if (step.screen == "photo") {
 					payload.photoName = step.fkey+".jpg";
 					
-					sck.emit("photo", payload);
 					if (broadcast) {
-                    	sck.broadcast.emit("photo", payload);
-                    }
+						io.sockets.emit("photo", payload);
+					} else {
+						sck.emit("photo", payload);
+					}
 				}
 				
 			};
