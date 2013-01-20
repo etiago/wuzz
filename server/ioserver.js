@@ -309,19 +309,19 @@ function emitPayload(sck, broadcast) {
 	                    			payload.question = question.text;
 	                    			payload.answers = question.answers;
 	                    			payload.results = question.result_count;
+	                    			
+	                    			sck.emit("graph", payload);
 	                    			if (broadcast) {
 	                            			sck.broadcast.emit("graph", payload);
-	                    			} else {
-	                            			sck.emit("graph", payload);
 	                    			}
 	            			};
 	    			})(payload, broadcast));
     			} else if (step.screen == "photo") {
 					payload.photoName = step.fkey+".jpg";
+					
+					sck.emit("photo", payload);
 					if (broadcast) {
                     	sck.broadcast.emit("photo", payload);
-                    } else {
-	                    sck.emit("photo", payload);
                     }
 				}
 				
