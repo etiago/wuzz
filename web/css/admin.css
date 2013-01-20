@@ -87,3 +87,33 @@ body {
 	margin-left: 6%;
 }
 
+#contentsPhoto {
+	width: 50%;
+	margin: auto;
+	text-align: center;
+	display: none;
+}
+#photoTitle {
+	font-size: 4em;
+	font-weight: bold;
+}
+
+.photoImg {
+	max-width: 100%; 
+}
+
+#contentsGraph {
+		width: 50%;
+	margin: auto;
+	text-align: center;
+	display: none;
+}
+
+#graphTitle {
+	font-size: 4em;
+	font-weight: bold;
+}
+
+#graphImage {
+	max-width: 100%; 
+}

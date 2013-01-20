@@ -17,6 +17,10 @@
 	
 	window.BuzzAdmin.callbacks = new Object();
 	
+	window.BuzzAdmin.status = new Object();
+	
+	window.BuzzAdmin.status.currentWindow = $("#contentsInit");
+	
 	window.BuzzAdmin.callbacks["intro"] = function(data) {
 		// if (window.BuzzAdmin.enabledTimers["introUpdate"]) {
 			// clearInterval(window.BuzzAdmin.enabledTimers["introUpdate"]);
@@ -25,9 +29,53 @@
 		// window.BuzzAdmin.enabledTimers["introUpdate"] = setInterval(window.BuzzAdmin.timers.introUpdate,3000);
 	};
 	
+	window.BuzzAdmin.callbacks["graph"] = function(data) {
+		window.BuzzAdmin.status.currentWindow.slideUp();
+		window.BuzzAdmin.status.currentWindow = $("#contentsGraph");
+		
+		var graphData = new Array();
+		graphData[0] = new Array();
+		
+		$.each( data.results, function(i, n){
+			graphData[0].push([data.answers[i],n]);
+		});
+		$("#graphTitle").html("Results for \""+data.question+"\"");
+		
+		var plot1 = $.jqplot('graphImage', graphData, {
+	        gridPadding: {top:0, bottom:38, left:0, right:0},
+	        seriesDefaults:{
+	            renderer:$.jqplot.PieRenderer, 
+	            trendline:{ show:false }, 
+	            rendererOptions: { padding: 8, showDataLabels: true }
+	        },
+	        legend:{
+	            show:true, 
+	            placement: 'outside', 
+	            rendererOptions: {
+	                numberRows: 1
+	            }, 
+	            location:'s',
+	            marginTop: '15px'
+	        }       
+	    });
+		
+		$("#contentsGraph").slideDown();
+	};
+	
+	window.BuzzAdmin.callbacks["photo"] = function(data) {
+		window.BuzzAdmin.status.currentWindow.slideUp();
+		window.BuzzAdmin.status.currentWindow = $("#contentsPhoto"); 
+		
+		$("#photo").empty();
+		$("#photo").append("<img class=\"photoImg\" src=\"photos/"+data.photoName+"\" />");
+		
+		$("#contentsPhoto").slideDown();
+	}
+	
 	window.BuzzAdmin.callbacks["question"] = function(data) {
-		$("#contentsInit").slideUp();
-
+		window.BuzzAdmin.status.currentWindow.slideUp();
+		window.BuzzAdmin.status.currentWindow = $("#contentsQuestion"); 
+		
 		$("#questionTitle").html(data.question);
 		$("#answerList").empty();
 		
@@ -36,7 +84,7 @@
 		});
 		
 		
-		
+		// TODO: Need timer
 		$("#contentsQuestion").slideDown();
 	};
 	
