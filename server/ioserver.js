@@ -136,6 +136,8 @@ io.sockets.on('connection', function(socket) {
 										question.result_count[data.answer] += 1;
 										
 										db.questions.save(question);
+										
+										
 										console.log("updated");
 									};
 								})(socket,data,user));

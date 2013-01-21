@@ -117,3 +117,25 @@ body {
 #graphImage {
 	max-width: 100%; 
 }
+
+#progressMenu{
+	display: none;
+}
+#btnNext {
+	color: #FFFFFF;
+	border: 2px solid #ffffff;
+	background-color: #8f0303;
+	width: 10%;
+	height: 10%;
+	display: block;
+	margin: auto;
+	font-size: 2em;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#btnNext:hover {
+	background-color: #ac2222;
+	cursor: pointer;
+}

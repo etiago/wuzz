@@ -19,7 +19,7 @@
 	
 	window.BuzzAdmin.status = new Object();
 	
-	window.BuzzAdmin.status.currentWindow = $("#contentsInit");
+	window.BuzzAdmin.status.currentWindow = "#contentsInit";
 	
 	window.BuzzAdmin.callbacks["intro"] = function(data) {
 		// if (window.BuzzAdmin.enabledTimers["introUpdate"]) {
@@ -30,8 +30,8 @@
 	};
 	
 	window.BuzzAdmin.callbacks["graph"] = function(data) {
-		window.BuzzAdmin.status.currentWindow.slideUp();
-		window.BuzzAdmin.status.currentWindow = $("#contentsGraph");
+		$(window.BuzzAdmin.status.currentWindow).slideUp();
+		window.BuzzAdmin.status.currentWindow = "#contentsGraph";
 		
 		var graphData = new Array();
 		graphData[0] = new Array();
@@ -59,22 +59,24 @@
 	        }       
 	    });
 		
+		$("#progressMenu").show();
 		$("#contentsGraph").slideDown();
 	};
 	
 	window.BuzzAdmin.callbacks["photo"] = function(data) {
-		window.BuzzAdmin.status.currentWindow.slideUp();
-		window.BuzzAdmin.status.currentWindow = $("#contentsPhoto"); 
+		$(window.BuzzAdmin.status.currentWindow).slideUp();
+		window.BuzzAdmin.status.currentWindow = "#contentsPhoto"; 
 		
 		$("#photo").empty();
 		$("#photo").append("<img class=\"photoImg\" src=\"photos/"+data.photoName+"\" />");
 		
+		$("#progressMenu").show();
 		$("#contentsPhoto").slideDown();
 	}
 	
 	window.BuzzAdmin.callbacks["question"] = function(data) {
-		window.BuzzAdmin.status.currentWindow.slideUp();
-		window.BuzzAdmin.status.currentWindow = $("#contentsQuestion"); 
+		$(window.BuzzAdmin.status.currentWindow).slideUp();
+		window.BuzzAdmin.status.currentWindow = "#contentsQuestion"; 
 		
 		$("#questionTitle").html(data.question);
 		$("#answerList").empty();
@@ -85,6 +87,7 @@
 		
 		
 		// TODO: Need timer
+		$("#progressMenu").show();
 		$("#contentsQuestion").slideDown();
 	};
 	
@@ -109,18 +112,14 @@
 		//socket.emit("status",{});
 	};
 	
+
+	
 	window.onload = function() {
-		// $("#btn_start").click(function() {
-			// $("#contents").slideUp();
-			// $("#contents").empty();
-// 			
-			// socket.emit("status",{});
-		// });
-		
 		$("#btnSaveConfigs").click(window.BuzzAdmin.ui.click.btnSaveConfigs);
 		$("#btnWrench").click(window.BuzzAdmin.ui.click.btnWrench);
 		$("#btnStart").click(window.BuzzAdmin.ui.click.btnStart);
-		
+		$("#btnNext").click(window.BuzzAdmin.ui.click.btnStart);
+
 		socket.on("intro", window.BuzzAdmin.callbacks.intro);
 		socket.on("question",window.BuzzAdmin.callbacks.question);
 		socket.on("graph",window.BuzzAdmin.callbacks.graph);

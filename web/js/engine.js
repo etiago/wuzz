@@ -103,6 +103,8 @@
 				});
 				$("#graphTitle").html("Results for \""+data.question+"\"");
 				
+				$("#pie1").empty();
+				
 				var plot1 = $.jqplot('pie1', graphData, {
 			        gridPadding: {top:0, bottom:38, left:0, right:0},
 			        seriesDefaults:{
