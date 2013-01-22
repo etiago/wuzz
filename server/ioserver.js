@@ -58,6 +58,7 @@ function RegistrationClosure(socket, data, user_by_hash) {
 					db.users.save({username: data.username, hash: retObj.loginHash, language: language, nameChanges: 0, correctAnswers: 0});
 				}
 		        
+		        retObj.language = language;
 				socket.emit("registration", retObj);
 				return;
 			} else {
@@ -308,6 +309,10 @@ function emitPayload(sck, broadcast) {
                 					console.log("Question to emit: %j", question);
                         			payload.question = question.text;
                         			payload.answers = question.answers;
+                        			payload.question_cn = question.text_ch;
+                        			payload.answers_cn = question.answer_ch;
+                        			payload.question_pt = question.text_pt;
+                        			payload.answers_pt = question.answer_pt;
                         			
                         			if (broadcast) {
                         				// This is better than sck.broadcast as it emits to client too
@@ -325,7 +330,11 @@ function emitPayload(sck, broadcast) {
 	                    			payload.question = question.text;
 	                    			payload.answers = question.answers;
 	                    			payload.results = question.result_count;
-	                    			
+	                    			payload.question_cn = question.text_ch;
+                        			payload.answers_cn = question.answer_ch;
+                        			payload.question_pt = question.text_pt;
+                        			payload.answers_pt = question.answer_pt;
+                        			
 	                    			if (broadcast) {
 	                    				io.sockets.emit("graph", payload);
 	                    			} else {

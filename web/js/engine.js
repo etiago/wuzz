@@ -33,6 +33,13 @@
 	
 	window.Buzz.handlers["app_btnSubmit"] = function(e) {
 		if (window.Buzz.chosenAnswer >= 0 && window.Buzz.chosenAnswer <= 3) {
+			if (localStorage.language == "chinese") {
+				$("#voteConfirmationDiv").html("投票成功");
+			} else if (localStorage.language == "portuguese") {
+				$("#voteConfirmationDiv").html("Voto registado!");
+			} else {
+				$("#voteConfirmationDiv").html("Vote submitted!");
+			}
 			$("#voteConfirmationDiv").slideDown();
 			
 			socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:window.Buzz.chosenAnswer});
@@ -68,10 +75,21 @@
 	
 	window.Buzz.functions.pagebeforeshow["intro"] = function() {
 		if (localStorage.username) {
-			
-			$("#i_lblMessage").html("Thanks "+localStorage.username+"! The game will start momentarily.");
+			if (localStorage.language == "chinese") {
+				$("#i_lblMessage").html("谢谢 <strong>"+localStorage.username+"</strong>！ 游戏马上开始。");
+			} else if (localStorage.language == "portuguese") {
+				$("#i_lblMessage").html("Obrigado <strong>"+localStorage.username+"</strong>! O jogo vai começar dentro de momentos.");
+			} else{
+				$("#i_lblMessage").html("Thanks <strong>"+localStorage.username+"</strong>! The game will start momentarily.");
+			}
 		} else {
-			$("#i_lblMessage").html("Welcome stranger! Please choose a username.");
+			if (localStorage.language == "chinese") {
+				$("#i_lblMessage").html("欢迎欢迎，请输入一个用户名。");
+			} else if (localStorage.language == "portuguese") {
+				$("#i_lblMessage").html("Bemvindo! Escolhe um nome de utilizador.");
+			} else{
+				$("#i_lblMessage").html("Welcome stranger! Please choose a username.");
+			}
 		}
 	};
 	
@@ -100,10 +118,24 @@
 				var graphData = new Array();
 				graphData[0] = new Array();
 				
+				var answersArray = data.answers;
+				if (localStorage.language == "chinese") {
+					answersArray = data.answers_cn;
+				} else if (localStorage.language == "portuguese") {
+					answersArray = data.answers_pt;
+				}
+				
 				$.each( data.results, function(i, n){
-					graphData[0].push([data.answers[i],n]);
+					graphData[0].push([answersArray[i],n]);
 				});
-				$("#graphTitle").html("Results for \""+data.question+"\"");
+				
+				if (localStorage.language == "chinese") {
+					$("#graphTitle").html("\""+data.question+"\" 的投票结果");
+				} else if (localStorage.language == "portuguese") {
+					$("#graphTitle").html("Resultados para \""+data.question+"\"");
+				} else {
+					$("#graphTitle").html("Results for \""+data.question+"\"");
+				}
 				
 				$("#pie1").empty();
 				
@@ -142,9 +174,19 @@
 			}
 			
 			var questionText = questionData["question"];
+			var answers = questionData["answers"];
+			
+			if (localStorage.language == "chinese") {
+				questionText = questionData["question_cn"];	
+				answers = questionData["answers_cn"];
+			} else if (localStorage.language == "portuguese") {
+				questionText = questionData["question_pt"];
+				answers = questionData["answers_pt"];
+			}
+			
 			$("#questionTitle").html(questionText);
 		
-			$.each(questionData["answers"], function(index, value) {
+			$.each(answers, function(index, value) {
 				  index++;
 				  $("#answer"+index).unbind();
 				  $("#answer"+index).click((function(idx, socket){
@@ -177,9 +219,13 @@
 								
 								setTimeout((function(){return function() {window.iosocket.emit("status", {})};})(),3000);
 							}
-							$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
-							
-							
+							if (localStorage.language == "english") {
+								$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
+							} else if (localStorage.language == "chinese") {
+								$("#timeLeft").html("还剩"+secondsLeft+"秒.");
+							} else if (localStorage.language == "portuguese") {
+								$("#timeLeft").html("Tempo restante: "+secondsLeft+" segundos.");
+							}  
 						};
 					})(questionData["secondsLeft"]),1000);
 			}
@@ -193,6 +239,8 @@
 		if (data["status"] == "success") {
 			localStorage.loginHash = data["loginHash"];
 			localStorage.username = data["username"];
+			localStorage.language = data["language"];
+			
 			socket.emit("status", {});
 			
 			return;
