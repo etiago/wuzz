@@ -10,7 +10,7 @@ var databaseUrl = "buzz"; // "username:password@example.com/mydb"
 var collections = ["questions","configs","status","steps","users"]
 var db = require("mongojs").connect(databaseUrl, collections);
 
-app.listen(80);
+app.listen(8080);
 
 //var redis = require("redis"),
 //redisClient = redis.createClient();
@@ -245,6 +245,8 @@ function processCommand(sck) {
 	return function(data) {
 		if (data["command"] == "next") {
 			nextCommand(sck);
+		} else if(data["command"] == "tick") {
+			(ioEventStatus(sck, true))();
 		}     
 	};
 }
@@ -264,26 +266,9 @@ function nextCommand(sck) {
 }
 
 function ioEventStatus(sck, broadcast) {
-	return function(data) {
-		// var stepsCursor = db.steps.find()
-		// stepsCursor.sort({step:"1"}).limit(1);
-// 		
-		// cursor.nextObject((function(socket,data,broadcast){
-			// return function(err, step) {
-				// if (step === null) return;
-// 				
-// 				
-			// }
-		// })());
-							
-		// db.status.findOne({_id:1},(function(sck, broadcast) {                                      
-			// return function(err, status) {
-				// if (status === null) return;
-
-                emitPayload(sck, broadcast);
-            // };
-        // })(sck, broadcast));
-     };
+	return function(data) {	
+		emitPayload(sck, broadcast);
+	};
 }
 
 function emitPayload(sck, broadcast) {
