@@ -39,15 +39,23 @@ function RegistrationClosure(socket, data, user_by_hash) {
 		        retObj.status = "success";
 		        retObj.loginHash = shasum.digest("hex");
 		        retObj.username = data.username;
-		
+				
+				var language = "english";
+				if (data.language == "chinese") {
+					language = "chinese";
+				} else if (data.language == "portuguese") {
+					language = "portuguese";
+				}
+				
 				if (user_by_hash != null) {
 					user_by_hash.username = data.username;
 					user_by_hash.hash = retObj.loginHash;
 					user_by_hash.nameChanges++;
+					user_by_hash.language = language;
 					
 					db.users.save(user_by_hash);	
 				} else {
-					db.users.save({username: data.username, hash: retObj.loginHash, nameChanges: 0, correctAnswers: 0});
+					db.users.save({username: data.username, hash: retObj.loginHash, language: language, nameChanges: 0, correctAnswers: 0});
 				}
 		        
 				socket.emit("registration", retObj);

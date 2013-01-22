@@ -22,6 +22,7 @@
 		var obj = new Object();
 		obj.action = "register";
 		obj.username = $("#inUsername").val();
+		obj.language = $("#selLanguage").val();
 		
 		if (localStorage.loginHash) {
 			obj.loginHash = localStorage.loginHash;
@@ -32,7 +33,8 @@
 	
 	window.Buzz.handlers["app_btnSubmit"] = function(e) {
 		if (window.Buzz.chosenAnswer >= 0 && window.Buzz.chosenAnswer <= 3) {
-			// TODO: FInish this
+			$("#voteConfirmationDiv").slideDown();
+			
 			socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:window.Buzz.chosenAnswer});
 		}
 	}

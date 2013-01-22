@@ -16,8 +16,19 @@
 	-webkit-border-radius: 0em /*{global-radii-buttons}*/;
 	border-radius: 0em /*{global-radii-buttons}*/;
 }
+
+#question .confirmationMessage {
+	-moz-border-radius: 0em /*{global-radii-buttons}*/;
+	-webkit-border-radius: 0em /*{global-radii-buttons}*/;
+	border-radius: 0em /*{global-radii-buttons}*/;
+}
+
 #usernameErrorDiv {
 		display: none;
+}
+
+#voteConfirmationDiv{
+	display: none;
 }
 
 #img_buzz {
