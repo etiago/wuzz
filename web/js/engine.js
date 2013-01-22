@@ -135,7 +135,7 @@
 	
 	window.Buzz.callbacks["question"] = function (questionData) {
 			if (window.pageID != "question" ) {
-				$.mobile.changePage("app.html");
+				$.mobile.changePage("index.html");
 				return;
 			}
 			
