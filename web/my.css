@@ -54,6 +54,15 @@ width: 70%;
 margin: auto;
 }
 
+#finalResults {
+	margin: auto;
+	text-align: center;
+}
+#divWinner {
+ font-size: 2em;
+ 	
+}
+
 .text-align-center {
   text-align: center;
 }

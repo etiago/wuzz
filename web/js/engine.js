@@ -97,7 +97,7 @@
 	
 	window.Buzz.callbacks["intro"] = function(data) {
 		if (window.pageID != "intro" ) {
-			$.mobile.changePage("index.html");
+			$.mobile.changePage("account.html");
 		} else {
 			
 		}
@@ -279,7 +279,41 @@
 			return;
 		}
 		
+		var secondPlace = "";
+		var thirdPlace = "";
 		
+		var points = "";
+		
+		if (localStorage.language == "chinese") {
+			secondPlace = "亚军 ";
+			thirdPlace = "季军 ";
+			
+			points = "分";
+			
+			$("#finalTitle").html("冠军是。。。");
+		} else if (localStorage.language == "portuguese") {
+			secondPlace = "Segundo lugar: ";
+			thirdPlace = "Terceiro lugar: ";
+			
+			points = "pontos";
+			
+			$("#finalTitle").html("O vencedor é...");
+		} else {
+			secondPlace = "Runner up: ";
+			thirdPlace = "Third place: ";
+			
+			points = "points";
+			
+			$("#finalTitle").html("The winner is...");
+		}
+		
+		secondPlace += data.top[1].username+" [ "+data.top[1].points + " " + points+" ]";
+		thirdPlace += data.top[2].username+" [ "+data.top[2].points + " " + points + " ]";
+		
+		$("#secondPlace").html(secondPlace);
+		$("#thirdPlace").html(thirdPlace);
+		
+		$("#divWinner").html(data.top[0].username+" [ "+data.top[0].points + " " + points+" ]");
 	};
 	
 	// TODO: Redirect based on rules
@@ -322,6 +356,8 @@
 		socket.on("photo", new StatusReply("photo").go);
 		
 		socket.on("graph", new StatusReply("graph").go);
+		
+		socket.on("final", new StatusReply("final").go);
 		
 		// socket.on("intro", window.Buzz.callbacks["intro"]);
 // 		
