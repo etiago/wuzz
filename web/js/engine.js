@@ -130,9 +130,9 @@
 				});
 				
 				if (localStorage.language == "chinese") {
-					$("#graphTitle").html("\""+data.question+"\" 的投票结果");
+					$("#graphTitle").html("\""+data.question_cn+"\" 的投票结果");
 				} else if (localStorage.language == "portuguese") {
-					$("#graphTitle").html("Resultados para \""+data.question+"\"");
+					$("#graphTitle").html("Resultados para \""+data.question_pt+"\"");
 				} else {
 					$("#graphTitle").html("Results for \""+data.question+"\"");
 				}

@@ -218,6 +218,7 @@ io.sockets.on('connection', function(socket) {
 							retObj.status = "success";
 							retObj.username = user.username;
 							retObj.loginHash = user.hash;
+							retObj.language = user.language;
 						}
 
 						socket.emit("registration", retObj);
