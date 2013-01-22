@@ -1,5 +1,5 @@
 (function() {
-	var socket = io.connect('http://localhost:8080');
+	var socket = io.connect('http://192.168.178.20:8080');
 	
 	window.BuzzAdmin = new Object();
 	

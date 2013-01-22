@@ -341,15 +341,21 @@ function emitPayload(sck, broadcast) {
 					
 					payload.top = [];
 					
-					var stepsCursor = db.users.find().limit(3).sort({correctAnswers:-1}, (function(socket,payload, broadcast){
+					var stepsCursor = db.users.find().limit(3).sort({correctAnswers:-1}, (function(payload, broadcast){
 						return function(err, users) {
 							users.forEach(function(element,index,array) {
 								payload.top.push({username:element.username, points:element.correctAnswers});
 							}); 	
 							
-							socket.emit("final", payload);
+							if (broadcast) {
+                				io.sockets.emit("final", payload);
+                			} else {
+                				sck.emit("final", payload);
+                			}
+	                    			
+							
 						};
-					})(sck,payload, broadcast));
+					})(payload, broadcast));
 				}
 				
 			};

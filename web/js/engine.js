@@ -1,5 +1,5 @@
 (function() {
-	var socket = io.connect('http://localhost:8080');
+	var socket = io.connect('http://192.168.178.20:8080');
 	window.Buzz = new Object();
 	
 	window.Buzz.iosocket = socket;
@@ -217,26 +217,28 @@
 				  $("#answer"+index).css("display","block");
 			});
 		
-			if (window.tickID == null) {
-				window.tickID = setInterval((function(secondsLeft) {
-						return function() {
-							secondsLeft--;
-							if (secondsLeft == 0) {
-								clearInterval(window.tickID);
-								delete(window.tickID);
-								
-								setTimeout((function(){return function() {window.iosocket.emit("status", {})};})(),3000);
-							}
-							if (localStorage.language == "english") {
-								$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
-							} else if (localStorage.language == "chinese") {
-								$("#timeLeft").html("还剩"+secondsLeft+"秒.");
-							} else if (localStorage.language == "portuguese") {
-								$("#timeLeft").html("Tempo restante: "+secondsLeft+" segundos.");
-							}  
-						};
-					})(questionData["secondsLeft"]),1000);
+			
+			if (window.tickID != null) {
+				clearInterval(window.tickID);
 			}
+			window.tickID = setInterval((function(secondsLeft) {
+					return function() {
+						secondsLeft--;
+						if (secondsLeft == 0) {
+							clearInterval(window.tickID);
+							delete(window.tickID);
+							
+							setTimeout((function(){return function() {window.iosocket.emit("status", {})};})(),3000);
+						}
+						if (localStorage.language == "english") {
+							$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
+						} else if (localStorage.language == "chinese") {
+							$("#timeLeft").html("还剩"+secondsLeft+"秒.");
+						} else if (localStorage.language == "portuguese") {
+							$("#timeLeft").html("Tempo restante: "+secondsLeft+" segundos.");
+						}  
+					};
+				})(questionData["secondsLeft"]),1000);
 			
 			$("#lblUsername").html(localStorage.username);
 		
