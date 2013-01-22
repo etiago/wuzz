@@ -47,7 +47,7 @@ function RegistrationClosure(socket, data, user_by_hash) {
 					
 					db.users.save(user_by_hash);	
 				} else {
-					db.users.save({username: data.username, hash: retObj.loginHash, nameChanges: 0});
+					db.users.save({username: data.username, hash: retObj.loginHash, nameChanges: 0, correctAnswers: 0});
 				}
 		        
 				socket.emit("registration", retObj);
@@ -137,6 +137,11 @@ io.sockets.on('connection', function(socket) {
 										
 										db.questions.save(question);
 										
+										if (question.rightanswer == data.answer) {
+											user.correctAnswers++;
+											
+											db.users.save(user);
+										}
 										
 										console.log("updated");
 									};

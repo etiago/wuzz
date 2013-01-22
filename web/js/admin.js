@@ -33,6 +33,9 @@
 		$(window.BuzzAdmin.status.currentWindow).slideUp();
 		window.BuzzAdmin.status.currentWindow = "#contentsGraph";
 		
+		$("#progressMenu").show();
+		$("#contentsGraph").slideDown();
+		
 		var graphData = new Array();
 		graphData[0] = new Array();
 		
@@ -40,6 +43,9 @@
 			graphData[0].push([data.answers[i],n]);
 		});
 		$("#graphTitle").html("Results for \""+data.question+"\"");
+		
+		
+		$("#graphImage").empty();
 		
 		var plot1 = $.jqplot('graphImage', graphData, {
 	        gridPadding: {top:0, bottom:38, left:0, right:0},
@@ -58,9 +64,6 @@
 	            marginTop: '15px'
 	        }       
 	    });
-		
-		$("#progressMenu").show();
-		$("#contentsGraph").slideDown();
 	};
 	
 	window.BuzzAdmin.callbacks["photo"] = function(data) {
