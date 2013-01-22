@@ -34,11 +34,11 @@
 	window.Buzz.handlers["app_btnSubmit"] = function(e) {
 		if (window.Buzz.chosenAnswer >= 0 && window.Buzz.chosenAnswer <= 3) {
 			if (localStorage.language == "chinese") {
-				$("#voteConfirmationDiv").html("投票成功");
+				$("#voteConfimationMsg").html("投票成功");
 			} else if (localStorage.language == "portuguese") {
-				$("#voteConfirmationDiv").html("Voto registado!");
+				$("#voteConfimationMsg").html("Voto registado!");
 			} else {
-				$("#voteConfirmationDiv").html("Vote submitted!");
+				$("#voteConfimationMsg").html("Vote submitted!");
 			}
 			$("#voteConfirmationDiv").slideDown();
 			
@@ -97,7 +97,7 @@
 	
 	window.Buzz.callbacks["intro"] = function(data) {
 		if (window.pageID != "intro" ) {
-			$.mobile.changePage("account.html");
+			$.mobile.changePage("index.html");
 		} else {
 			
 		}
@@ -169,7 +169,7 @@
 	
 	window.Buzz.callbacks["question"] = function (questionData) {
 			if (window.pageID != "question" ) {
-				$.mobile.changePage("index.html");
+				$.mobile.changePage("question.html");
 				return;
 			}
 			
@@ -178,7 +178,7 @@
 			} else if (localStorage.language == "portuguese") {
 				$("#app_btnSubmit"+" .ui-btn-text").html("Submeter");
 			} else {
-				$("#app_btnSubmit").html("Submit");
+				$("#app_btnSubmit"+" .ui-btn-text").html("Submit");
 			}
 			
 			var questionText = questionData["question"];
