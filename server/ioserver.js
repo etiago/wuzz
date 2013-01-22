@@ -351,6 +351,20 @@ function emitPayload(sck, broadcast) {
 					} else {
 						sck.emit("photo", payload);
 					}
+				} else if (step.screen == "final") {
+					console.log("Emitting final.");
+					
+					payload.top = [];
+					
+					var stepsCursor = db.users.find().limit(3).sort({correctAnswers:-1}, (function(socket,payload, broadcast){
+						return function(err, users) {
+							users.forEach(function(element,index,array) {
+								payload.top.push({username:element.username, points:element.correctAnswers});
+							}); 	
+							
+							socket.emit("final", payload);
+						};
+					})(sck,payload, broadcast));
 				}
 				
 			};

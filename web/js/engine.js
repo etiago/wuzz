@@ -173,6 +173,14 @@
 				return;
 			}
 			
+			if (localStorage.language == "chinese") {
+				$("#app_btnSubmit"+" .ui-btn-text").html("投票");
+			} else if (localStorage.language == "portuguese") {
+				$("#app_btnSubmit"+" .ui-btn-text").html("Submeter");
+			} else {
+				$("#app_btnSubmit").html("Submit");
+			}
+			
 			var questionText = questionData["question"];
 			var answers = questionData["answers"];
 			
@@ -263,6 +271,15 @@
 			delete localStorage.username;
 			socket.emit("status",{});
 		}
+	};
+	
+	window.Buzz.callbacks["final"] = function(data) {
+		if (window.pageID != "final" ) {
+			$.mobile.changePage("final.html");
+			return;
+		}
+		
+		
 	};
 	
 	// TODO: Redirect based on rules
