@@ -1,6 +1,6 @@
 $(document).bind("mobileinit", function(){
 	
-	$( 'div[data-role="page"]' ).live( 'pageshow',function(event, ui){
+	$( 'div[data-role="page"]' ).live( 'pageshow',function(event){
 		window.pageID = event.target.id;
 		
 		if (!(typeof window.Buzz.iosocket === 'undefined') && window.Buzz.iosocket !== null) {
@@ -15,13 +15,13 @@ $(document).bind("mobileinit", function(){
 
 	});
 	
-	$( 'div[data-role="page"]' ).live( 'pagebeforeshow',function(event, ui){
+	$( 'div[data-role="page"]' ).live( 'pagebeforeshow',function(event){
 		if (event.target.id in window.Buzz.functions.pagebeforeshow){
 			window.Buzz.functions.pagebeforeshow[event.target.id]();
 		}
 	});
 	
-	$( 'div[data-role="page"]' ).live( 'pageinit',function(event, ui){
+	$( 'div[data-role="page"]' ).live( 'pageinit',function(){
 		
 		// Tiago: Still not fully convinced by this solution. Should do
 		// sth more elegant rather than iterate through all.
