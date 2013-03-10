@@ -1,5 +1,5 @@
 (function() {
-	var socket = io.connect('http://192.168.178.20:8080');
+	var socket = io.connect('http://buzz.wedding:8080');
 	
 	window.BuzzAdmin = new Object();
 	
@@ -94,6 +94,18 @@
 		$("#contentsQuestion").slideDown();
 	};
 	
+	window.BuzzAdmin.callbacks["final"] = function(data) {
+		$(window.BuzzAdmin.status.currentWindow).slideUp();
+		window.BuzzAdmin.status.currentWindow = "#contentsFinish";
+		
+		$("#progressMenu").hide();
+		$("#contentsFinish").slideDown();
+		
+		$("#divWinner").html(data.top[0].username + " [ "+data.top[0].points+" points]");
+		
+		$("#secondPlace").html("Runner-up: "+data.top[1].username + " [ "+data.top[1].points+" points]");
+		$("#thirdPlace").html("Third place: "+data.top[2].username + " [ "+data.top[2].points+" points]");
+	};
 	
 	window.BuzzAdmin.ui = new Object();
 	
@@ -127,5 +139,6 @@
 		socket.on("question",window.BuzzAdmin.callbacks.question);
 		socket.on("graph",window.BuzzAdmin.callbacks.graph);
 		socket.on("photo",window.BuzzAdmin.callbacks.photo);
+		socket.on("final",window.BuzzAdmin.callbacks.final);
 	}
 })();

@@ -1,14 +1,14 @@
 (function() {
-	var socket = io.connect('http://192.168.178.20:8080');
-	window.Buzz = new Object();
+	var socket = io.connect('http://buzz.wedding:8080');
+	window.Buzz = {};
 	
 	window.Buzz.iosocket = socket;
 	
 	window.Buzz.chosenAnswer = -1;
 	
-	window.Buzz.handlers = new Object();
+	window.Buzz.handlers = {};
 	
-	//window.Buzz.handlers["global"] = new Object();
+	//window.Buzz.handlers["global"] = {};
 	window.Buzz.handlers["h_btnSettings"] = function() {
 			
 			$.mobile.changePage("account.html");
@@ -19,7 +19,7 @@
 	}
 	
 	window.Buzz.handlers["acc_btnSave"] = function(e){
-		var obj = new Object();
+		var obj = {};
 		obj.action = "register";
 		obj.username = $("#inUsername").val();
 		obj.language = $("#selLanguage").val();
@@ -46,7 +46,7 @@
 		}
 	}
 	
-	window.Buzz.functions = new Object();
+	window.Buzz.functions = {};
 	
 	window.Buzz.functions["loginCheck"] = function() {
 		// If we have local login data, verify it
@@ -59,7 +59,7 @@
 		socket.emit("status",{});
 	};
 	
-	window.Buzz.functions.pagebeforeshow = new Object();
+	window.Buzz.functions.pagebeforeshow = {};
 	
 	window.Buzz.functions.pagebeforeshow["account"] = function() {
 		if (localStorage.username) {
@@ -93,7 +93,7 @@
 		}
 	};
 	
-	window.Buzz.callbacks = new Object();
+	window.Buzz.callbacks = {};
 	
 	window.Buzz.callbacks["intro"] = function(data) {
 		if (window.pageID != "intro" ) {

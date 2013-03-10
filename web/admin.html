@@ -16,7 +16,7 @@
         <script src="js/jquery.jqplot.min.js"></script>
         <script src="js/jqplot.pieRenderer.min.js"></script>
         <!--<script src="http://prometheus.fritz.box/socket.io/socket.io.js"></script>-->
-        <script src="http://192.168.178.20:8080/socket.io/socket.io.js"></script>
+        <script src="http://buzz.wedding:8080/socket.io/socket.io.js"></script>
         <script src="js/admin.js"></script>
     </head>
 	<body>
@@ -54,6 +54,16 @@
 		<div id="contentsGraph">
 			<div id="graphTitle"></div>
 			<div id="graphImage"></div>
+		</div>
+		
+		<div id="contentsFinish">
+			<h2 id="finalTitle">
+                The winner is...
+            </h2>
+            <div id="divWinner"></div>
+            <br />
+            <div id="secondPlace">Runner-up: </div>
+            <div id="thirdPlace">Third place: </div>
 		</div>
 		<div id="progressMenu">
 			<input type="button" value="Next" id="btnNext">

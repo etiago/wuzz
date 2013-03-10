@@ -139,3 +139,26 @@ body {
 	background-color: #ac2222;
 	cursor: pointer;
 }
+
+#contentsFinish {
+		width: 50%;
+	margin: auto;
+	text-align: center;
+	display: none;
+}
+
+#finalTitle {
+	font-size: 4em;
+}
+
+#divWinner {
+	font-size: 3em;
+}
+
+#secondPlace {
+	font-size: 1.5em;
+}
+
+#thirdPlace {
+	font-size: 1.5em;
+}
