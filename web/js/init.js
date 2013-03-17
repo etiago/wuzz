@@ -1,3 +1,7 @@
+/*global window */
+/*global $ */
+/*global document */
+
 $(document).bind("mobileinit", function(){
 	
 	$( 'div[data-role="page"]' ).live( 'pageshow',function(event){
