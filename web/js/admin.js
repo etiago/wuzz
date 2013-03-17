@@ -22,11 +22,7 @@
 	window.BuzzAdmin.status.currentWindow = "#contentsInit";
 	
 	window.BuzzAdmin.callbacks["intro"] = function() {
-		// if (window.BuzzAdmin.enabledTimers["introUpdate"]) {
-			// clearInterval(window.BuzzAdmin.enabledTimers["introUpdate"]);
-// 			
-		// }
-		// window.BuzzAdmin.enabledTimers["introUpdate"] = setInterval(window.BuzzAdmin.timers.introUpdate,3000);
+
 	};
 	
 	window.BuzzAdmin.callbacks["graph"] = function(data) {
@@ -50,18 +46,18 @@
 		$.jqplot('graphImage', graphData, {
 			gridPadding: {top:0, bottom:38, left:0, right:0},
 			seriesDefaults:{
-			    renderer:$.jqplot.PieRenderer, 
-			    trendline:{ show:false }, 
-			    rendererOptions: { padding: 8, showDataLabels: true }
+				renderer:$.jqplot.PieRenderer, 
+				trendline:{ show:false }, 
+				rendererOptions: { padding: 8, showDataLabels: true }
 			},
 			legend:{
-			    show:true, 
-			    placement: 'outside', 
-			    rendererOptions: {
-			        numberRows: 1
-			    }, 
-			    location:'s',
-			    marginTop: '15px'
+				show:true,
+				placement: 'outside', 
+				rendererOptions: {
+					numberRows: 1
+				},
+				location:'s',
+				marginTop: '15px'
 			}       
 		});
 	};
