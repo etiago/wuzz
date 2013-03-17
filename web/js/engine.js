@@ -249,7 +249,7 @@
 							$("#timeLeft").html("Tempo restante: "+secondsLeft+" segundos.");
 						}  
 					};
-				})(questionData["secondsLeft"]),1000);
+				})(questionData.secondsLeft),1000);
 			
 			$("#lblUsername").html(localStorage.username);
 		
@@ -345,7 +345,7 @@
 					return;
 				}
 				
-				if (localStorage.username == null || localStorage.loginHash == null) {
+				if (localStorage.username === null || localStorage.loginHash === null) {
 					$.mobile.changePage("account.html");
 					return;
 				}
@@ -357,32 +357,18 @@
 	}
 	
 	window.Buzz.initializeCallbacks = function() {
-		//socket.on("account", window.Buzz.callbacks["account"]);
-		
 		socket.on("intro", new StatusReply("intro").go);
 		
 		socket.on("registration", new StatusReply("registration").go);
 		
 		socket.on("question",new StatusReply("question").go);
 	
-		var photoName = "";
 		socket.on("photo", new StatusReply("photo").go);
 		
 		socket.on("graph", new StatusReply("graph").go);
 		
 		socket.on("final", new StatusReply("final").go);
-		
-		// socket.on("intro", window.Buzz.callbacks["intro"]);
-// 		
-		// socket.on("registration", window.Buzz.callbacks["registration"]);
-// 		
-		// socket.on("question",window.Buzz.callbacks["question"]);
-// 	
-		// var photoName = "";
-		// socket.on("photo", window.Buzz.callbacks["photo"]);
-// 		
-		// socket.on("graph", window.Buzz.callbacks["graph"]);
-	}
+	};
     
 	window.onload = function() {
 		window.Buzz.functions.loginCheck();
