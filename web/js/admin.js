@@ -21,7 +21,7 @@
 	
 	window.BuzzAdmin.status.currentWindow = "#contentsInit";
 	
-	window.BuzzAdmin.callbacks["intro"] = function(data) {
+	window.BuzzAdmin.callbacks["intro"] = function() {
 		// if (window.BuzzAdmin.enabledTimers["introUpdate"]) {
 			// clearInterval(window.BuzzAdmin.enabledTimers["introUpdate"]);
 // 			
@@ -47,7 +47,7 @@
 		
 		$("#graphImage").empty();
 		
-		var plot1 = $.jqplot('graphImage', graphData, {
+		$.jqplot('graphImage', graphData, {
 	        gridPadding: {top:0, bottom:38, left:0, right:0},
 	        seriesDefaults:{
 	            renderer:$.jqplot.PieRenderer, 
