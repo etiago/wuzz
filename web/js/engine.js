@@ -1,3 +1,11 @@
+/*global window */
+/*global io */
+/*global $ */
+/*global localStorage */
+/*global clearInterval */
+/*global setTimeout */
+/*global setInterval */
+
 (function() {
 	var socket = io.connect('http://buzz.wedding:8080');
 	window.Buzz = {};
