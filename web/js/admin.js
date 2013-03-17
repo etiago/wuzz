@@ -1,23 +1,23 @@
 (function() {
 	var socket = io.connect('http://buzz.wedding:8080');
 	
-	window.BuzzAdmin = new Object();
+	window.BuzzAdmin = {};
 	
 	// window.BuzzAdmin.populateQuestion = function(questionTest, options) {
 // 		
 	// };
 	
-	window.BuzzAdmin.timers = new Object();
+	window.BuzzAdmin.timers = {};
 	
-	window.BuzzAdmin.timers["introUpdate"] = function() {
+	window.BuzzAdmin.timers.introUpdate = function() {
 		
 	};
 	
-	window.BuzzAdmin.enabledTimers = new Object();
+	window.BuzzAdmin.enabledTimers = {}();
 	
-	window.BuzzAdmin.callbacks = new Object();
+	window.BuzzAdmin.callbacks = {}();
 	
-	window.BuzzAdmin.status = new Object();
+	window.BuzzAdmin.status = {}();
 	
 	window.BuzzAdmin.status.currentWindow = "#contentsInit";
 	
@@ -107,9 +107,9 @@
 		$("#thirdPlace").html("Third place: "+data.top[2].username + " [ "+data.top[2].points+" points]");
 	};
 	
-	window.BuzzAdmin.ui = new Object();
+	window.BuzzAdmin.ui = {}();
 	
-	window.BuzzAdmin.ui.click = new Object();
+	window.BuzzAdmin.ui.click = {}();
 	
 	window.BuzzAdmin.ui.click["btnSaveConfigs"] = function() {
 		window.BuzzAdmin.psk = $("#psk").val();
