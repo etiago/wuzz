@@ -21,11 +21,11 @@
 	
 	window.BuzzAdmin.status.currentWindow = "#contentsInit";
 	
-	window.BuzzAdmin.callbacks["intro"] = function() {
+	window.BuzzAdmin.callbacks.intro = function() {
 
 	};
 	
-	window.BuzzAdmin.callbacks["graph"] = function(data) {
+	window.BuzzAdmin.callbacks.graph = function(data) {
 		$(window.BuzzAdmin.status.currentWindow).slideUp();
 		window.BuzzAdmin.status.currentWindow = "#contentsGraph";
 		
@@ -62,7 +62,7 @@
 		});
 	};
 
-	window.BuzzAdmin.callbacks["photo"] = function(data) {
+	window.BuzzAdmin.callbacks.photo = function(data) {
 		$(window.BuzzAdmin.status.currentWindow).slideUp();
 		window.BuzzAdmin.status.currentWindow = "#contentsPhoto"; 
 		
@@ -73,7 +73,7 @@
 		$("#contentsPhoto").slideDown();
 	};
 	
-	window.BuzzAdmin.callbacks["question"] = function(data) {
+	window.BuzzAdmin.callbacks.question = function(data) {
 		$(window.BuzzAdmin.status.currentWindow).slideUp();
 		window.BuzzAdmin.status.currentWindow = "#contentsQuestion"; 
 		
@@ -107,16 +107,16 @@
 	
 	window.BuzzAdmin.ui.click = {};
 	
-	window.BuzzAdmin.ui.click["btnSaveConfigs"] = function() {
+	window.BuzzAdmin.ui.click.btnSaveConfigs = function() {
 		window.BuzzAdmin.psk = $("#psk").val();
 		$("#configs").slideUp();
 	};
 	
-	window.BuzzAdmin.ui.click["btnWrench"] = function() {
+	window.BuzzAdmin.ui.click.btnWrench = function() {
 		$("#configs").slideDown();
 	};
 	
-	window.BuzzAdmin.ui.click["btnStart"] = function() {
+	window.BuzzAdmin.ui.click.btnStart = function() {
 		if (!window.BuzzAdmin.psk) return;
 		
 		socket.emit(window.BuzzAdmin.psk, {command:"next"});
@@ -136,5 +136,5 @@
 		socket.on("graph",window.BuzzAdmin.callbacks.graph);
 		socket.on("photo",window.BuzzAdmin.callbacks.photo);
 		socket.on("final",window.BuzzAdmin.callbacks.final);
-	}
+	};
 })();
