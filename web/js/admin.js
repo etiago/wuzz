@@ -3,10 +3,6 @@
 	
 	window.BuzzAdmin = {};
 	
-	// window.BuzzAdmin.populateQuestion = function(questionTest, options) {
-// 		
-	// };
-	
 	window.BuzzAdmin.timers = {};
 	
 	window.BuzzAdmin.timers.introUpdate = function() {
