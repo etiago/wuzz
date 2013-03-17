@@ -13,11 +13,11 @@
 		
 	};
 	
-	window.BuzzAdmin.enabledTimers = {}();
+	window.BuzzAdmin.enabledTimers = {};
 	
-	window.BuzzAdmin.callbacks = {}();
+	window.BuzzAdmin.callbacks = {};
 	
-	window.BuzzAdmin.status = {}();
+	window.BuzzAdmin.status = {};
 	
 	window.BuzzAdmin.status.currentWindow = "#contentsInit";
 	
@@ -107,9 +107,9 @@
 		$("#thirdPlace").html("Third place: "+data.top[2].username + " [ "+data.top[2].points+" points]");
 	};
 	
-	window.BuzzAdmin.ui = {}();
+	window.BuzzAdmin.ui = {};
 	
-	window.BuzzAdmin.ui.click = {}();
+	window.BuzzAdmin.ui.click = {};
 	
 	window.BuzzAdmin.ui.click["btnSaveConfigs"] = function() {
 		window.BuzzAdmin.psk = $("#psk").val();
