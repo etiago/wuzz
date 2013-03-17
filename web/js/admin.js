@@ -36,8 +36,8 @@
 		$("#progressMenu").show();
 		$("#contentsGraph").slideDown();
 		
-		var graphData = new Array();
-		graphData[0] = new Array();
+		var graphData = [];
+		graphData[0] = [];
 		
 		$.each( data.results, function(i, n){
 			graphData[0].push([data.answers[i],n]);
@@ -75,7 +75,7 @@
 		
 		$("#progressMenu").show();
 		$("#contentsPhoto").slideDown();
-	}
+	};
 	
 	window.BuzzAdmin.callbacks["question"] = function(data) {
 		$(window.BuzzAdmin.status.currentWindow).slideUp();
