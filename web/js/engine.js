@@ -24,9 +24,9 @@
 	
 	window.Buzz.handlers.i_btnRegister = function() {
 			$.mobile.changePage("account.html");
-	}
+	};
 	
-	window.Buzz.handlers.acc_btnSave = function(e){
+	window.Buzz.handlers.acc_btnSave = function(){
 		var obj = {};
 		obj.action = "register";
 		obj.username = $("#inUsername").val();
@@ -39,7 +39,7 @@
 		socket.emit("registration", obj);
 	};
 	
-	window.Buzz.handlers.app_btnSubmit = function(e) {
+	window.Buzz.handlers.app_btnSubmit = function() {
 		if (window.Buzz.chosenAnswer >= 0 && window.Buzz.chosenAnswer <= 3) {
 			if (localStorage.language == "chinese") {
 				$("#voteConfimationMsg").html("投票成功");
@@ -52,7 +52,7 @@
 			
 			socket.emit("answer", {username:localStorage.username,hash:localStorage.loginHash,answer:window.Buzz.chosenAnswer});
 		}
-	}
+	};
 	
 	window.Buzz.functions = {};
 	
@@ -103,15 +103,15 @@
 	
 	window.Buzz.callbacks = {};
 	
-	window.Buzz.callbacks.intro = function(data) {
+	window.Buzz.callbacks.intro = function() {
 		if (window.pageID != "intro" ) {
 			$.mobile.changePage("index.html");
 		} else {
 			
 		}
-	}
+	};
 	
-	window.Buzz.callbacks.account = function(data) {
+	window.Buzz.callbacks.account = function() {
 			if (window.pageID != "account" ) {
 				$.mobile.changePage("account.html");
 			} else {
@@ -123,8 +123,8 @@
 			if (window.pageID != "graph" ) {
 				$.mobile.changePage("graph.html");
 			} else {
-				var graphData = new Array();
-				graphData[0] = new Array();
+				var graphData = [];
+				graphData[0] = [];
 				
 				var answersArray = data.answers;
 				if (localStorage.language == "chinese") {
