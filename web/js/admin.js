@@ -48,24 +48,24 @@
 		$("#graphImage").empty();
 		
 		$.jqplot('graphImage', graphData, {
-	        gridPadding: {top:0, bottom:38, left:0, right:0},
-	        seriesDefaults:{
-	            renderer:$.jqplot.PieRenderer, 
-	            trendline:{ show:false }, 
-	            rendererOptions: { padding: 8, showDataLabels: true }
-	        },
-	        legend:{
-	            show:true, 
-	            placement: 'outside', 
-	            rendererOptions: {
-	                numberRows: 1
-	            }, 
-	            location:'s',
-	            marginTop: '15px'
-	        }       
-	    });
+			gridPadding: {top:0, bottom:38, left:0, right:0},
+			seriesDefaults:{
+			    renderer:$.jqplot.PieRenderer, 
+			    trendline:{ show:false }, 
+			    rendererOptions: { padding: 8, showDataLabels: true }
+			},
+			legend:{
+			    show:true, 
+			    placement: 'outside', 
+			    rendererOptions: {
+			        numberRows: 1
+			    }, 
+			    location:'s',
+			    marginTop: '15px'
+			}       
+		});
 	};
-	
+
 	window.BuzzAdmin.callbacks["photo"] = function(data) {
 		$(window.BuzzAdmin.status.currentWindow).slideUp();
 		window.BuzzAdmin.status.currentWindow = "#contentsPhoto"; 
