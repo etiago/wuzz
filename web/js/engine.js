@@ -225,17 +225,21 @@
 			});
 		
 			
-			if (window.tickID != null) {
+			if (window.tickID !== null) {
 				clearInterval(window.tickID);
 			}
 			window.tickID = setInterval((function(secondsLeft) {
 					return function() {
 						secondsLeft--;
-						if (secondsLeft == 0) {
+						if (secondsLeft === 0) {
 							clearInterval(window.tickID);
 							delete(window.tickID);
 							
-							setTimeout((function(){return function() {window.iosocket.emit("status", {})};})(),3000);
+							setTimeout((function(){
+								return function() {
+									window.iosocket.emit("status", {});
+								};
+							})(),3000);
 						}
 						if (localStorage.language == "english") {
 							$("#timeLeft").html("Time left: "+secondsLeft+" seconds.");
