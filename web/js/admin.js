@@ -1,3 +1,7 @@
+/*global window */
+/*global io */
+/*global $ */
+
 (function() {
 	var socket = io.connect('http://buzz.wedding:8080');
 	
