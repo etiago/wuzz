@@ -5,6 +5,7 @@
 /*global clearInterval */
 /*global setTimeout */
 /*global setInterval */
+/*global socket */
 
 (function() {
 	var socket = io.connect('http://buzz.wedding:8080');
@@ -372,6 +373,6 @@
     
 	window.onload = function() {
 		window.Buzz.functions.loginCheck();
-    	window.Buzz.initializeCallbacks();
-	}
+		window.Buzz.initializeCallbacks();
+	};
 })();
