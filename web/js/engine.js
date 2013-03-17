@@ -9,16 +9,16 @@
 	window.Buzz.handlers = {};
 	
 	//window.Buzz.handlers["global"] = {};
-	window.Buzz.handlers["h_btnSettings"] = function() {
+	window.Buzz.handlers.h_btnSettings = function() {
 			
 			$.mobile.changePage("account.html");
 	};
 	
-	window.Buzz.handlers["i_btnRegister"] = function() {
+	window.Buzz.handlers.i_btnRegister = function() {
 			$.mobile.changePage("account.html");
 	}
 	
-	window.Buzz.handlers["acc_btnSave"] = function(e){
+	window.Buzz.handlers.acc_btnSave = function(e){
 		var obj = {};
 		obj.action = "register";
 		obj.username = $("#inUsername").val();
@@ -31,7 +31,7 @@
 		socket.emit("registration", obj);
 	};
 	
-	window.Buzz.handlers["app_btnSubmit"] = function(e) {
+	window.Buzz.handlers.app_btnSubmit = function(e) {
 		if (window.Buzz.chosenAnswer >= 0 && window.Buzz.chosenAnswer <= 3) {
 			if (localStorage.language == "chinese") {
 				$("#voteConfimationMsg").html("投票成功");
@@ -48,7 +48,7 @@
 	
 	window.Buzz.functions = {};
 	
-	window.Buzz.functions["loginCheck"] = function() {
+	window.Buzz.functions.loginCheck = function() {
 		// If we have local login data, verify it
 		if (localStorage.loginHash) {
 			socket.emit("registration", {action:"checkHash",loginHash:localStorage.loginHash});
@@ -61,19 +61,19 @@
 	
 	window.Buzz.functions.pagebeforeshow = {};
 	
-	window.Buzz.functions.pagebeforeshow["account"] = function() {
+	window.Buzz.functions.pagebeforeshow.account = function() {
 		if (localStorage.username) {
 			$("#inUsername").val(localStorage.username);
 		}	
 	};
 	
-	window.Buzz.functions.pagebeforeshow["account"] = function() {
+	window.Buzz.functions.pagebeforeshow.account = function() {
 		if (localStorage.username) {
 			$("#inUsername").val(localStorage.username);
 		}	
 	};
 	
-	window.Buzz.functions.pagebeforeshow["intro"] = function() {
+	window.Buzz.functions.pagebeforeshow.intro = function() {
 		if (localStorage.username) {
 			if (localStorage.language == "chinese") {
 				$("#i_lblMessage").html("谢谢 <strong>"+localStorage.username+"</strong>！ 游戏马上开始。");
@@ -95,7 +95,7 @@
 	
 	window.Buzz.callbacks = {};
 	
-	window.Buzz.callbacks["intro"] = function(data) {
+	window.Buzz.callbacks.intro = function(data) {
 		if (window.pageID != "intro" ) {
 			$.mobile.changePage("index.html");
 		} else {
@@ -103,7 +103,7 @@
 		}
 	}
 	
-	window.Buzz.callbacks["account"] = function(data) {
+	window.Buzz.callbacks.account = function(data) {
 			if (window.pageID != "account" ) {
 				$.mobile.changePage("account.html");
 			} else {
@@ -111,7 +111,7 @@
 			}
 	};
 	
-	window.Buzz.callbacks["graph"] = function (data) {
+	window.Buzz.callbacks.graph = function (data) {
 			if (window.pageID != "graph" ) {
 				$.mobile.changePage("graph.html");
 			} else {
@@ -159,7 +159,7 @@
 			}
 	}
 		
-	window.Buzz.callbacks["photo"] = function (data) {
+	window.Buzz.callbacks.photo = function (data) {
 				if (window.pageID != "photo" ) {
 					$.mobile.changePage("photo.html");
 				} else {
@@ -167,7 +167,7 @@
 				}
 	};
 	
-	window.Buzz.callbacks["question"] = function (questionData) {
+	window.Buzz.callbacks.question = function (questionData) {
 			if (window.pageID != "question" ) {
 				$.mobile.changePage("question.html");
 				return;
@@ -181,15 +181,15 @@
 				$("#app_btnSubmit"+" .ui-btn-text").html("Submit");
 			}
 			
-			var questionText = questionData["question"];
-			var answers = questionData["answers"];
+			var questionText = questionData.question;
+			var answers = questionData.answers;
 			
 			if (localStorage.language == "chinese") {
-				questionText = questionData["question_cn"];	
-				answers = questionData["answers_cn"];
+				questionText = questionData.question_cn;	
+				answers = questionData.answers_cn;
 			} else if (localStorage.language == "portuguese") {
-				questionText = questionData["question_pt"];
-				answers = questionData["answers_pt"];
+				questionText = questionData.question_pt;
+				answers = questionData.answers_pt;
 			}
 			
 			$("#questionTitle").html(questionText);
@@ -245,25 +245,25 @@
 		
 	};
 	
-	window.Buzz.callbacks["registration"] = function(data) {
-		if (data["status"] == "success") {
-			localStorage.loginHash = data["loginHash"];
-			localStorage.username = data["username"];
-			localStorage.language = data["language"];
+	window.Buzz.callbacks.registration = function(data) {
+		if (data.status == "success") {
+			localStorage.loginHash = data.loginHash;
+			localStorage.username = data.username;
+			localStorage.language = data.language;
 			
 			socket.emit("status", {});
 			
 			return;
 		}
 		
-		if (data["status"] == "error") {
+		if (data.status == "error") {
 			// Show error
-			if (data["error"] == "nonexistant_hash") {
+			if (data.error == "nonexistant_hash") {
 				
-			} else if (data["error"] == "empty_hash") {
+			} else if (data.error == "empty_hash") {
 				// This really shouldn't happen, just preventing smartass hackers
 				
-			} else if (data["error"] == "user_exists") {
+			} else if (data.error == "user_exists") {
 				// Self-explanatory
 				$("#usernameErrorDiv").slideDown();
 			}
@@ -275,7 +275,7 @@
 		}
 	};
 	
-	window.Buzz.callbacks["final"] = function(data) {
+	window.Buzz.callbacks.final = function(data) {
 		if (window.pageID != "final" ) {
 			$.mobile.changePage("final.html");
 			return;
