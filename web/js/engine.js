@@ -206,7 +206,7 @@
 			$.each(answers, function(index, value) {
 				index++;
 				$("#answer"+index).unbind();
-				$("#answer"+index).click((function(idx, socket){
+				$("#answer"+index).click((function(idx){
 						return function (e) {
 								e.stopImmediatePropagation();
 								e.preventDefault();
@@ -218,7 +218,7 @@
 								idx--;
 								window.Buzz.chosenAnswer = idx;
 						};
-					})(index, socket)
+					})(index)
 				);
 
 				$("#answer"+index+" .ui-btn-text").html(value);
